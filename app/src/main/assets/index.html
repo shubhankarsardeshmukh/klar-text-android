@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root {
+  --col: 480px;
   /* Brand Palette */
   --color-brand-navy: #0F172A;
   --color-brand-red: #EF4444;
@@ -107,7 +108,9 @@ body {
 .screen {
   display: none;
   width: 100%;
-  max-width: 480px;
+  max-width: var(--col);
+  margin-left: auto;
+  margin-right: auto;
   height: 100vh;
   max-height: 900px;
   background-color: var(--bg-main);
@@ -1102,8 +1105,8 @@ body {
 @media (min-width: 700px) {
   html { font-size: 17px; }
 
+  :root { --col: 640px; }
   .screen {
-    max-width: 640px;
     max-height: 1150px;
     padding: 28px 36px 44px 36px;
   }
@@ -1130,8 +1133,8 @@ body {
 @media (min-width: 1000px) {
   html { font-size: 18px; }
 
+  :root { --col: 760px; }
   .screen {
-    max-width: 760px;
     max-height: 1250px;
   }
 
@@ -1357,7 +1360,7 @@ button, input, textarea { font-family: inherit; }
 
 /* ---------- Tab bar ---------- */
 .tab-bar {
-  position: fixed; left: 50%; bottom: 0; transform: translate(-50%, 110%); z-index: 50; width: 100%; max-width: 480px;
+  position: fixed; left: 50%; bottom: 0; transform: translate(-50%, 110%); z-index: 50; width: 100%; max-width: var(--col);
   display: flex; padding: 8px 8px calc(8px + env(safe-area-inset-bottom)); gap: 2px;
   background: rgba(255,255,255,.96); backdrop-filter: blur(10px); border-top: 2px solid #E3DBFA; border-radius: 24px 24px 0 0;
   box-shadow: 0 -10px 30px rgba(42,22,147,.12); transition: transform .35s cubic-bezier(.22,1,.36,1);
@@ -1379,15 +1382,46 @@ body.has-tabs #screenHome.active { padding-bottom: 104px; }
    v1.16 — Memorize screen, always-visible mute / info buttons, interactive
    3D how-to guide. Pure CSS 3D + a little JS, so it works offline too.
    ===================================================================== */
-.fab-row { position: fixed; top: calc(10px + env(safe-area-inset-top)); right: max(10px, calc(50% - 240px + 10px)); z-index: 900; display: flex; gap: 8px; }
-.fab { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #D9D0F7; background: rgba(255,255,255,.96); color: var(--violet); font-size: 1.1rem; font-weight: 900; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 3px 0 0 #D9D0F7, 0 8px 16px -6px rgba(42,22,147,.35); transition: transform .15s, box-shadow .15s, background .15s; padding: 0; line-height: 1; }
-.fab:active { transform: translateY(2px); box-shadow: 0 1px 0 0 #D9D0F7; }
-.fab.muted { background: #FFE9EC; border-color: #FFB3BD; box-shadow: 0 3px 0 0 #FFB3BD, 0 8px 16px -6px rgba(255,92,108,.35); color: var(--coral); }
-body.no-fab .fab-row { display: none; }
-.screen:not(#screenHome):not(#screenSplash):not(#screenAuth):not(#screenOnboarding) { padding-top: 58px; }
-#screenHome .home-hero { padding-top: 60px; }
-.fab-toast { position: fixed; top: calc(58px + env(safe-area-inset-top)); right: max(10px, calc(50% - 240px + 10px)); z-index: 905; background: #2A1693; color: #fff; font-weight: 800; font-size: .78rem; padding: 6px 12px; border-radius: 999px; opacity: 0; transform: translateY(-6px); transition: all .2s; pointer-events: none; }
+/* v1.17.3 — sound button now lives inside the app column and only appears
+   on study screens; the info button moved to the Home header. */
+.fab-row { position: fixed; top: calc(10px + env(safe-area-inset-top)); right: max(12px, calc(50% - var(--col) / 2 + 14px)); z-index: 900; display: none; gap: 8px; }
+body[data-screen="practice"] .fab-row, body[data-screen="memorize"] .fab-row, body[data-screen="glesson"] .fab-row, body[data-screen="saetze"] .fab-row { display: flex; }
+#screenPractice, #screenMemorize, #screenGlesson, #screenSaetze { padding-top: 62px; }
+.snd { position: relative; width: 46px; height: 46px; border-radius: 16px; border: 0; padding: 0; cursor: pointer; display: grid; place-items: center; color: #fff;
+  background: radial-gradient(120% 120% at 20% 10%, #A18BFF 0%, #6B4DF0 45%, #4125C9 100%);
+  box-shadow: 0 4px 0 0 #2F1AA3, 0 10px 18px -6px rgba(65,37,201,.55), inset 0 1.5px 0 rgba(255,255,255,.45);
+  transition: transform .15s, box-shadow .15s, background .25s; }
+.snd::after { content: ""; position: absolute; inset: 3px 3px 55% 3px; border-radius: 13px 13px 20px 20px; background: linear-gradient(rgba(255,255,255,.35), rgba(255,255,255,0)); pointer-events: none; }
+.snd:active { transform: translateY(3px); box-shadow: 0 1px 0 0 #2F1AA3, 0 4px 10px -4px rgba(65,37,201,.5), inset 0 1.5px 0 rgba(255,255,255,.35); }
+.snd-svg { width: 30px; height: 30px; overflow: visible; position: relative; z-index: 1; filter: drop-shadow(0 1.5px 0 rgba(30,10,120,.45)); }
+.snd-svg .spk { fill: #fff; }
+.snd-svg .wave { fill: none; stroke: #fff; stroke-width: 2.8; stroke-linecap: round; }
+.snd-svg .x { stroke: #fff; stroke-width: 3; stroke-linecap: round; display: none; }
+.snd.muted { background: radial-gradient(120% 120% at 20% 10%, #FFB3C0 0%, #FF6B84 45%, #E0344F 100%); box-shadow: 0 4px 0 0 #B31E38, 0 10px 18px -6px rgba(224,52,79,.5), inset 0 1.5px 0 rgba(255,255,255,.45); }
+.snd.muted:active { box-shadow: 0 1px 0 0 #B31E38, 0 4px 10px -4px rgba(224,52,79,.5); }
+.snd.muted .wave { display: none; }
+.snd.muted .x { display: block; }
+.snd.pulse .w1 { animation: sndWave .55s ease-out both; }
+.snd.pulse .w2 { animation: sndWave .55s .12s ease-out both; }
+@keyframes sndWave { 0% { opacity: 0; transform: translateX(-3px); } 60% { opacity: 1; } 100% { opacity: 1; transform: none; } }
+.home-top-right { display: flex; align-items: center; gap: 10px; }
+.home-info { width: 34px; height: 34px; border-radius: 50%; border: 2px solid rgba(255,255,255,.65); background: rgba(255,255,255,.22); color: #fff; font: 900 1.05rem/1 inherit; cursor: pointer; display: grid; place-items: center; padding: 0; backdrop-filter: blur(4px); transition: transform .15s, background .15s; }
+.home-info:active { transform: scale(.92); background: rgba(255,255,255,.4); }
+.fab-toast { position: fixed; top: calc(62px + env(safe-area-inset-top)); right: max(12px, calc(50% - var(--col) / 2 + 14px)); z-index: 905; background: #2A1693; color: #fff; font-weight: 800; font-size: .78rem; padding: 6px 12px; border-radius: 999px; opacity: 0; transform: translateY(-6px); transition: all .2s; pointer-events: none; }
 .fab-toast.show { opacity: 1; transform: none; }
+/* auth screen additions */
+.auth-info { color: var(--color-success-dark, #0E7A4B); font-size: .85rem; font-weight: 700; margin-bottom: 10px; line-height: 1.4; }
+.auth-info:empty { display: none; }
+.auth-pw { position: relative; }
+.auth-pw input { padding-right: 52px; }
+.auth-eye { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border: 0; background: none; cursor: pointer; font-size: 1.1rem; color: var(--text-secondary); border-radius: 12px; }
+.auth-or { display: flex; align-items: center; gap: 12px; margin: 16px 0 12px; color: var(--text-muted); font-size: .75rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; }
+.auth-or::before, .auth-or::after { content: ""; flex: 1; height: 2px; background: var(--bg-surface-elevated); border-radius: 2px; }
+.auth-google { width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 13px 16px; border-radius: var(--radius-md); border: 2px solid var(--bg-surface-elevated); background: #fff; color: #1F2937; font: 800 .95rem/1 inherit; cursor: pointer; box-shadow: 0 3px 0 0 var(--bg-surface-elevated); transition: transform .12s, box-shadow .12s; }
+.auth-google:active { transform: translateY(2px); box-shadow: 0 1px 0 0 var(--bg-surface-elevated); }
+.auth-google svg { width: 20px; height: 20px; flex: none; }
+.auth-google:disabled { opacity: .6; }
+.auth-version { text-align: center; margin-top: 22px; font-size: .7rem; font-weight: 700; color: var(--text-muted); user-select: text; }
 
 /* ---------- Memorize ---------- */
 .mem-hero { background: linear-gradient(160deg, #5B3FE0 0%, #3B22B0 70%, #2A1693 100%); border: none; color: #fff; perspective: 800px; box-shadow: 0 14px 28px -10px rgba(42,22,147,.5); }
@@ -1651,13 +1685,21 @@ body.no-fab .fab-row { display: none; }
       <button id="authTabSignup" class="auth-mode-tab">Create Account</button>
     </div>
 
-    <div class="auth-error" id="authError"></div>
+    <div class="auth-error" id="authError" role="alert"></div>
+    <div class="auth-info" id="authInfo" role="status"></div>
 
-    <div class="auth-field"><input type="email" id="authEmailInput" placeholder="Email" autocomplete="email" autocapitalize="off" spellcheck="false" /></div>
-    <div class="auth-field"><input type="password" id="authPasswordInput" placeholder="Password" autocomplete="current-password" /></div>
+    <div class="auth-field"><input type="email" id="authEmailInput" placeholder="Email" autocomplete="email" autocapitalize="off" spellcheck="false" inputmode="email" /></div>
+    <div class="auth-field auth-pw" id="authPwField"><input type="password" id="authPasswordInput" placeholder="Password" autocomplete="current-password" /><button type="button" class="auth-eye" id="authPwToggle" aria-label="Show password">👁</button></div>
 
     <button id="authSubmitBtn" class="btn-3d btn-primary">Sign In</button>
     <button id="authForgotBtn" class="auth-forgot">Forgot password?</button>
+
+    <div class="auth-or" id="authOr"><span>or</span></div>
+    <button id="authGoogleBtn" class="auth-google" type="button">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      <span>Continue with Google</span>
+    </button>
+    <div class="auth-version" id="authVersion"></div>
   </div>
 </div>
 
@@ -1666,7 +1708,10 @@ body.no-fab .fab-row { display: none; }
   <div class="home-hero">
     <div class="header-bar">
       <div class="brand-wordmark"><span class="logo-ez">klar</span><span class="logo-german">text</span></div>
-      <div id="streakBadge"><span id="streakCount">0</span><span class="streak-unit">day streak</span></div>
+      <div class="home-top-right">
+        <div id="streakBadge"><span id="streakCount">0</span><span class="streak-unit">day streak</span></div>
+        <button class="home-info" id="infoFab" type="button" title="How to use Klartext" aria-label="How to use Klartext">?</button>
+      </div>
     </div>
     <p id="greetingSub" class="hero-greeting">Ready to learn today?</p>
     <div class="hero-stats">
@@ -2282,7 +2327,7 @@ body.no-fab .fab-row { display: none; }
         <span id="autoSpeakToggleTrack" style="position:absolute;cursor:pointer;inset:0;background:var(--bg-surface-elevated);border-radius:999px;transition:.2s;"></span>
       </label>
     </div>
-    <p style="font-size:0.75rem;color:var(--text-muted);font-weight:600;margin:0;">Pronounces a word the first time it appears. The mute button at the top right silences this and all sound effects.</p>
+    <p style="font-size:0.75rem;color:var(--text-muted);font-weight:600;margin:0;">Pronounces a word the first time it appears. The speaker button shown while you study (and the Sound effects switch below) silences this and all sound effects.</p>
   </div>
 
   <div class="ui-card">
@@ -2328,7 +2373,7 @@ body.no-fab .fab-row { display: none; }
 
   <button id="resetBtn" class="btn-3d" style="background: #FEE2E2; color: var(--color-error-dark); border: 2px solid #FCA5A5;">Reset All Progress</button>
 
-  <div id="appVersionFooter" style="text-align:center; margin-top:20px; padding-top:16px; font-size:0.75rem; font-weight:700; color:var(--text-muted); cursor:default; user-select:none;">EZGerman <span id="appVersionText"></span></div>
+  <div id="appVersionFooter" style="text-align:center; margin-top:20px; padding-top:16px; font-size:0.75rem; font-weight:700; color:var(--text-muted); cursor:default; user-select:none;">Klartext <span id="appVersionText"></span></div>
 </div>
 
 <!-- DEV LOG (hidden changelog) — reached only by tapping the version
@@ -2381,10 +2426,16 @@ body.no-fab .fab-row { display: none; }
      counters; it only ever reads from `deck` and writes into its own
      #lookup* elements, so closing it drops the user back exactly where
      they were, mid-card, mid-session, nothing regraded or skipped. -->
-<!-- v1.16 always-visible buttons -->
+<!-- sound button: only shown on study screens (see CSS) -->
 <div class="fab-row" id="fabRow">
-  <button class="fab" id="muteFab" type="button" title="Mute sound" aria-label="Mute sound" aria-pressed="false">🔊</button>
-  <button class="fab" id="infoFab" type="button" title="How to use Klartext" aria-label="How to use Klartext">ⓘ</button>
+  <button class="snd" id="muteFab" type="button" title="Mute sound" aria-label="Mute sound" aria-pressed="false">
+    <svg class="snd-svg" viewBox="0 0 48 48" aria-hidden="true">
+      <path class="spk" d="M7 19.5h6.8L23 11.5v25l-9.2-8H7z" stroke="#fff" stroke-width="2" stroke-linejoin="round"/>
+      <path class="wave w1" d="M28.5 19.5Q32.5 24 28.5 28.5"/>
+      <path class="wave w2" d="M33 14.5Q40.5 24 33 33.5"/>
+      <path class="x" d="M29 19l10 10M39 19L29 29"/>
+    </svg>
+  </button>
 </div>
 <div class="ht-overlay" id="howtoOverlay" role="dialog" aria-modal="true" aria-label="How to use Klartext">
   <div class="ht-sheet">
@@ -2514,7 +2565,7 @@ function initFirebase(){
     cloudDb = firebase.firestore();
     cloudEnabled = true;
   }catch(e){
-    console.warn("[EZGerman] Firebase init failed — continuing in local-only mode:", e);
+    console.warn("[Klartext] Firebase init failed — continuing in local-only mode:", e);
     cloudEnabled = false;
   }
 }
@@ -4703,7 +4754,7 @@ function normalizeJsonPack(pack, slug){
 // willing to read the JS can recover it — it only raises the bar above
 // "open the file in a text editor" for casual copying when this APK is
 // shared with a few people, which is the actual threat model here.
-const DATA_PACK_KEY = "EzGermanStudyGroup2026";
+const DATA_PACK_KEY = "KlartextStudyGroup2026";
 // Two formats are understood. NEW (v1.15.1): the raw bytes are gzip data XOR'd
 // with the key (about 5x smaller to download). OLD: base64 text of XOR'd JSON.
 async function decodeObfuscatedPack(buf){
@@ -5419,6 +5470,7 @@ function showScreen(name, opts){
   opts = opts || {};
   screen = name;
   document.body.classList.toggle('no-fab', name === 'splash' || name === 'auth' || name === 'onboarding');
+  document.body.setAttribute('data-screen', name);
   updateTabBar(name);
   document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
   const el = document.getElementById('screen' + name.charAt(0).toUpperCase() + name.slice(1));
@@ -5671,8 +5723,24 @@ function renderProfileLevels(){
    major = big/breaking-ish change. Hidden from ordinary use — reached
    only via 5 taps on the version footer in Profile (see wireVersionTap
    below) — never linked to from anywhere else in the UI. */
-const APP_VERSION = "1.17.0";
+const APP_VERSION = "1.17.6";
 const APP_CHANGELOG = [
+  { version: "1.17.6", date: "2026-10-18", changes: [
+      "Fixed: closing the Google sign-in window without choosing an account no longer leaves the Google button stuck."
+  ]},
+  { version: "1.17.5", date: "2026-10-18", changes: [
+      "Sign-in screen shows the app version and address, so problems are easy to diagnose.",
+      "All old project names removed from the app."
+  ]},
+  { version: "1.17.4", date: "2026-10-18", changes: [
+      "Continue with Google now also works inside the Android app."
+  ]},
+  { version: "1.17.3", date: "2026-10-18", changes: [
+      "Fixed the layout on wide screens: content, tab bar and buttons now line up in one centered column.",
+      "New artistic speaker button, shown only while you study. The guide button (?) moved to the Home header.",
+      "Sign-in: clearer error messages, show/hide password, Enter key works, and a proper password-reset flow with a resend timer.",
+      "New: Continue with Google on the website."
+  ]},
   { version: "1.17.0", date: "2026-10-17", changes: [
       "New Grammar tab: lessons in English for the main German grammar topics from A1 to B2, each with tables, examples you can listen to, and 10-12 interactive exercises (multiple choice, typing, word order, matching, true/false) with instant explanations.",
       "Your best score and stars are saved per lesson and sync with your account.",
@@ -13573,30 +13641,96 @@ function hideDialog(){
 }
 
 /* ============ AUTH SCREEN WIRING ============ */
-let authMode = "signin"; // "signin" | "signup"
+let authMode = "signin"; // "signin" | "signup" | "reset"
+const IN_WEBVIEW = !!window.AndroidTTS || /; wv\)/i.test(navigator.userAgent);
+let resetCooldownTimer = null;
+function $a(id){ return document.getElementById(id); }
+function setAuthMsg(err, info){ $a("authError").textContent = err || ""; $a("authInfo").textContent = info || ""; }
 function setAuthMode(mode){
   authMode = mode;
-  document.getElementById("authTabSignin").classList.toggle("active", mode === "signin");
-  document.getElementById("authTabSignup").classList.toggle("active", mode === "signup");
-  document.getElementById("authSubmitBtn").textContent = mode === "signin" ? "Sign In" : "Create Account";
-  document.getElementById("authPasswordInput").autocomplete = mode === "signin" ? "current-password" : "new-password";
-  document.getElementById("authError").textContent = "";
+  const reset = mode === "reset";
+  $a("authTabSignin").classList.toggle("active", mode === "signin");
+  $a("authTabSignup").classList.toggle("active", mode === "signup");
+  document.querySelector(".auth-mode-tabs").style.display = reset ? "none" : "";
+  $a("authPwField").style.display = reset ? "none" : "";
+  $a("authOr").style.display = $a("authGoogleBtn").style.display = (reset || (IN_WEBVIEW && !window.AndroidAuth)) ? "none" : "";
+  $a("authSubmitBtn").textContent = reset ? "Send reset link" : (mode === "signin" ? "Sign In" : "Create Account");
+  $a("authForgotBtn").textContent = reset ? "← Back to sign in" : "Forgot password?";
+  $a("authForgotBtn").style.display = mode === "signup" ? "none" : "";
+  $a("authPasswordInput").autocomplete = mode === "signin" ? "current-password" : "new-password";
+  setAuthMsg("", reset ? "Enter your account email and we'll send you a link to choose a new password." : "");
 }
 function authErrorMessage(e){
-  // Firebase's own e.message is already learner-readable for the common
-  // cases (wrong password, email in use, weak password, invalid email).
-  return (e && e.message) ? e.message.replace(/^Firebase:\s*/,"").replace(/\s*\(auth\/[^)]+\)\.?$/,"") : "Something went wrong. Please try again.";
+  const code = (e && e.code) || "";
+  const map = {
+    "auth/invalid-email": "That email address doesn't look right. Please check it.",
+    "auth/missing-email": "Please enter your email address.",
+    "auth/user-not-found": "No account found for that email. Tap Create Account to make one.",
+    "auth/wrong-password": "Wrong email or password. Try again, or tap Forgot password.",
+    "auth/invalid-credential": "Wrong email or password. Try again, or tap Forgot password.",
+    "auth/invalid-login-credentials": "Wrong email or password. Try again, or tap Forgot password.",
+    "auth/email-already-in-use": "An account with this email already exists. Switch to Sign In.",
+    "auth/weak-password": "Please choose a password with at least 6 characters.",
+    "auth/network-request-failed": "Can't reach the server. Check your internet connection and try again.",
+    "auth/too-many-requests": "Too many attempts. Please wait a few minutes, or reset your password.",
+    "auth/user-disabled": "This account has been disabled.",
+    "auth/operation-not-allowed": "This sign-in method isn't switched on yet. (Admin: Firebase console → Authentication → Sign-in method.)",
+    "auth/unauthorized-domain": "This web address isn't authorized for sign-in yet. (Admin: Firebase console → Authentication → Settings → Authorized domains.)",
+    "auth/invalid-api-key": "App configuration problem (invalid API key). Please update the app.",
+    "auth/api-key-not-valid": "App configuration problem (invalid API key). Please update the app.",
+    "auth/account-exists-with-different-credential": "That email already has an account with a different sign-in method. Use the original method.",
+    "auth/operation-not-supported-in-this-environment": "Sign-in isn't supported in this browser mode. Try opening the site in Chrome or Safari."
+  };
+  if(map[code]) return map[code];
+  if(code === "auth/popup-closed-by-user" || code === "auth/cancelled-popup-request") return "";
+  const raw = (e && e.message) ? e.message.replace(/^Firebase:\s*/,"").replace(/\s*\(auth\/[^)]+\)\.?$/,"") : "";
+  return (raw || "Something went wrong.") + (code ? " [" + code + "]" : "");
 }
-document.getElementById("authTabSignin").addEventListener("click", ()=>setAuthMode("signin"));
-document.getElementById("authTabSignup").addEventListener("click", ()=>setAuthMode("signup"));
-document.getElementById("authSubmitBtn").addEventListener("click", async ()=>{
-  const email = document.getElementById("authEmailInput").value.trim();
-  const password = document.getElementById("authPasswordInput").value;
-  const errEl = document.getElementById("authError");
-  errEl.textContent = "";
-  if(!email || !password){ errEl.textContent = "Please enter both an email and a password."; return; }
-  const btn = document.getElementById("authSubmitBtn");
+function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+$a("authTabSignin").addEventListener("click", ()=>setAuthMode("signin"));
+$a("authTabSignup").addEventListener("click", ()=>setAuthMode("signup"));
+$a("authPwToggle").addEventListener("click", ()=>{
+  const i = $a("authPasswordInput"); const show = i.type === "password";
+  i.type = show ? "text" : "password";
+  $a("authPwToggle").textContent = show ? "🙈" : "👁";
+  $a("authPwToggle").setAttribute("aria-label", show ? "Hide password" : "Show password");
+});
+function startResetCooldown(){
+  const btn = $a("authSubmitBtn"); let left = 30;
+  clearInterval(resetCooldownTimer);
   btn.disabled = true;
+  const tick = () => {
+    if(authMode !== "reset"){ clearInterval(resetCooldownTimer); btn.disabled = false; return; }
+    if(left <= 0){ clearInterval(resetCooldownTimer); btn.disabled = false; btn.textContent = "Send again"; return; }
+    btn.textContent = "Sent · resend in " + left + "s"; left--;
+  };
+  tick(); resetCooldownTimer = setInterval(tick, 1000);
+}
+async function sendReset(){
+  const email = $a("authEmailInput").value.trim();
+  if(!email){ setAuthMsg("Please enter your email address first.", ""); $a("authEmailInput").focus(); return; }
+  if(!validEmail(email)){ setAuthMsg("That email address doesn't look right. Please check it.", ""); return; }
+  const btn = $a("authSubmitBtn"); btn.disabled = true; btn.textContent = "Sending…";
+  setAuthMsg("", "");
+  try{
+    await cloudAuth.sendPasswordResetEmail(email);
+    setAuthMsg("", "If an account exists for " + email + ", a reset link is on its way. It can take a minute. Check your spam folder too.");
+    startResetCooldown();
+  }catch(e){
+    setAuthMsg(authErrorMessage(e), "");
+    btn.disabled = false; btn.textContent = "Send reset link";
+  }
+}
+$a("authSubmitBtn").addEventListener("click", async ()=>{
+  if(authMode === "reset"){ return sendReset(); }
+  const email = $a("authEmailInput").value.trim();
+  const password = $a("authPasswordInput").value;
+  setAuthMsg("", "");
+  if(!email || !password){ setAuthMsg("Please enter both an email and a password.", ""); return; }
+  if(!validEmail(email)){ setAuthMsg("That email address doesn't look right. Please check it.", ""); return; }
+  if(authMode === "signup" && password.length < 6){ setAuthMsg("Please choose a password with at least 6 characters.", ""); return; }
+  const btn = $a("authSubmitBtn"); const label = btn.textContent;
+  btn.disabled = true; btn.textContent = authMode === "signin" ? "Signing in…" : "Creating account…";
   try{
     if(authMode === "signin"){
       await cloudAuth.signInWithEmailAndPassword(email, password);
@@ -13605,24 +13739,64 @@ document.getElementById("authSubmitBtn").addEventListener("click", async ()=>{
     }
     // onAuthStateChanged (see bootstrap()) takes it from here.
   }catch(e){
-    errEl.textContent = authErrorMessage(e);
+    setAuthMsg(authErrorMessage(e), "");
   }finally{
-    btn.disabled = false;
+    btn.disabled = false; btn.textContent = label;
   }
 });
-document.getElementById("authForgotBtn").addEventListener("click", async ()=>{
-  const email = document.getElementById("authEmailInput").value.trim();
-  const errEl = document.getElementById("authError");
-  if(!email){ errEl.textContent = "Enter your email above first, then tap \"Forgot password?\" again."; return; }
+$a("authForgotBtn").addEventListener("click", ()=>{
+  clearInterval(resetCooldownTimer); $a("authSubmitBtn").disabled = false;
+  setAuthMode(authMode === "reset" ? "signin" : "reset");
+});
+[$a("authEmailInput"), $a("authPasswordInput")].forEach(inp => inp.addEventListener("keydown", ev => {
+  if(ev.key === "Enter" && !$a("authSubmitBtn").disabled) $a("authSubmitBtn").click();
+}));
+/* Google sign-in (website only: Google blocks its sign-in page inside an
+   embedded WebView, so the button is hidden in the Android app). */
+async function googleSignIn(){
+  if(!cloudAuth) return;
+  // The button is never disabled: if the Google window is closed without
+  // choosing an account, the browser may never tell us, and a disabled
+  // button would stay stuck. Tapping again simply starts a fresh attempt
+  // (Firebase cancels the earlier one).
+  setAuthMsg("", "");
+  if(window.AndroidAuth && window.AndroidAuth.signInWithGoogle){
+    // Android app: the app shows the native Google account chooser and calls
+    // window.__onNativeGoogle(idToken, error) when it is done.
+    try{ window.AndroidAuth.signInWithGoogle(); }catch(e){ setAuthMsg("Google sign-in could not start. Please update the app.", ""); }
+    return;
+  }
+  const provider = new firebase.auth.GoogleAuthProvider();
+  provider.setCustomParameters({ prompt: "select_account" });
   try{
-    await cloudAuth.sendPasswordResetEmail(email);
-    errEl.style.color = "var(--color-success-dark)";
-    errEl.textContent = "Password reset email sent — check your inbox.";
+    await cloudAuth.signInWithPopup(provider);
   }catch(e){
-    errEl.style.color = "";
-    errEl.textContent = authErrorMessage(e);
+    if(e && (e.code === "auth/popup-blocked" || e.code === "auth/operation-not-supported-in-this-environment")){
+      try{ await cloudAuth.signInWithRedirect(provider); return; }catch(e2){ e = e2; }
+    }
+    setAuthMsg(authErrorMessage(e), "");
   }
-});
+}
+window.__onNativeGoogle = async function(idToken, err){
+  if(err || !idToken){
+    const msgs = {
+      "cancelled": "",
+      "not-configured": "Google sign-in isn't set up in this app build yet. Use email for now.",
+      "no-account": "No Google account found on this phone. Add one in Android Settings, then try again."
+    };
+    setAuthMsg(err in msgs ? msgs[err] : ("Google sign-in failed" + (err ? " [" + err + "]" : "") + ". Please try again."), "");
+    return;
+  }
+  try{
+    await cloudAuth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(idToken));
+  }catch(e){ setAuthMsg(authErrorMessage(e), ""); }
+};
+$a("authGoogleBtn").addEventListener("click", googleSignIn);
+function finishRedirectSignIn(){
+  try{ cloudAuth && cloudAuth.getRedirectResult().catch(e => setAuthMsg(authErrorMessage(e), "")); }catch(e){}
+}
+setAuthMode("signin");
+try{ $a("authVersion").textContent = "Klartext " + APP_VERSION + " · " + location.host + (window.AndroidAuth ? " · Android app" : ""); }catch(e){}
 /* =====================================================================
    v1.16 — enrichment data, new Memorize screen, mute / info buttons,
    auto-pronunciation and the interactive 3D how-to guide.
@@ -13731,7 +13905,6 @@ function applySoundUI(){
   const m = document.getElementById("muteFab");
   if(m){
     m.classList.toggle("muted", !soundEnabled);
-    m.textContent = soundEnabled ? "🔊" : "🔇";
     m.setAttribute("aria-pressed", String(!soundEnabled));
     const t = soundEnabled ? "Mute sound" : "Unmute sound";
     m.title = t; m.setAttribute("aria-label", t);
@@ -13757,7 +13930,11 @@ async function setSoundEnabled(on, silent){
   else sfx("correct");
   if(!silent) fabToast(soundEnabled ? "Sound on" : "Sound off");
 }
-document.getElementById("muteFab").addEventListener("click", () => setSoundEnabled(!soundEnabled));
+document.getElementById("muteFab").addEventListener("click", () => {
+  const b = document.getElementById("muteFab");
+  setSoundEnabled(!soundEnabled);
+  b.classList.remove("pulse"); void b.offsetWidth; if(soundEnabled) b.classList.add("pulse");
+});
 document.getElementById("infoFab").addEventListener("click", () => openHowTo());
 document.getElementById("autoSpeakToggle").addEventListener("change", async (ev) => {
   autoSpeak = ev.target.checked;
@@ -13906,7 +14083,7 @@ const HT_SLIDES = [
   },
   {
     title: "Hear every word",
-    text: "New words are spoken to you automatically. Tap 🔊 on any card or sentence to hear it again, or 🐢 for slow motion. The 🔊 button at the top right mutes everything at any time.",
+    text: "New words are spoken to you automatically. Tap 🔊 on any card or sentence to hear it again, or 🐢 for slow motion. The speaker button at the top right of study screens mutes everything at any time; the ? on Home reopens this guide.",
     tip: "Tap the speaker",
     stage(el){
       el.innerHTML = `<div id="htSpk" style="position:relative;display:flex;align-items:center;justify-content:center;transform-style:preserve-3d"><span class="ht-wave"></span><span class="ht-wave"></span><span class="ht-wave"></span><button class="ht-speaker" type="button" aria-label="Listen">🔊</button></div>
@@ -14345,6 +14522,7 @@ function waitForSplashMinimum(){
 
 (function bootstrap(){
   initFirebase();
+  if(cloudEnabled) finishRedirectSignIn();
   if(!cloudEnabled){
     // No Firebase project configured — behave exactly as the fully
     // local, single-device app did before this sync layer existed.

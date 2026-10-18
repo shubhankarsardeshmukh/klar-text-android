@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Paste your Firebase "Web client ID" here (Firebase console ->
+         Authentication -> Sign-in method -> Google -> Web SDK configuration).
+         It ends with .apps.googleusercontent.com -->
+    <string name="google_web_client_id" translatable="false">PASTE_WEB_CLIENT_ID_HERE</string>
+</resources>

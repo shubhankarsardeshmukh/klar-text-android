@@ -4,4 +4,4 @@
 # but WorkManager's daily-reminder Worker is instantiated via reflection, so if
 # minification is ever turned on later it needs an explicit keep rule or it will
 # silently fail to run.
--keep class com.example.ezgerman.ReminderWorker { <init>(android.content.Context, androidx.work.WorkerParameters); }
+-keep class com.klartext.app.ReminderWorker { <init>(android.content.Context, androidx.work.WorkerParameters); }

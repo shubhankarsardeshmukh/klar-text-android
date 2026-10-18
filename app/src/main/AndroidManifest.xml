@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Required to load the always-current, remotely-hosted version of the
-         app (https://ezgerman.web.app) — see MainActivity's REMOTE_URL. Every
+         app (https://klartext-german.web.app) — see MainActivity's REMOTE_URL. Every
          request the app makes is either to that one Firebase-hosted domain
          (the app itself, plus its own Firebase Auth/Firestore backend) or,
          with no internet at all, none — the app falls back to a fully local,
@@ -21,7 +21,7 @@
         android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:theme="@style/Theme.EZGerman"
+        android:theme="@style/Theme.Klartext"
         android:hardwareAccelerated="true">
         <activity
             android:name=".MainActivity"
