@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     // version and (eventually) the iOS version load. Whenever a change is
     // deployed via `firebase deploy`, every platform sees it immediately,
     // with no app-store release needed for ordinary content/logic changes.
-    private static final String REMOTE_URL = "https://ezgerman.web.app/";
+    private static final String REMOTE_URL = "https://klartext-german.web.app/";
     // Bundled copy in app/src/main/assets/, used ONLY as an offline
     // fallback when REMOTE_URL can't be reached — it deliberately still
     // has a placeholder FIREBASE_CONFIG (see index.html), so it runs in
@@ -255,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 Uri uri = request.getUrl();
                 String host = uri.getHost();
-                if (host != null && (host.equals("ezgerman.web.app")
+                if (host != null && (host.equals("klartext-german.web.app")
                         || host.equals("appassets.androidplatform.net"))) {
                     return false;
                 }
