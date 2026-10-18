@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Required to load the always-current, remotely-hosted version of the
+         app (https://ezgerman.web.app) — see MainActivity's REMOTE_URL. Every
+         request the app makes is either to that one Firebase-hosted domain
+         (the app itself, plus its own Firebase Auth/Firestore backend) or,
+         with no internet at all, none — the app falls back to a fully local,
+         offline bundled copy instead of failing. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Required on Android 13+ (API 33+) to post the daily reminder
+         notification (Feature 2). Requested at runtime from the Profile
+         screen's reminder toggle — never on first launch unprompted;
+         see MainActivity.ReminderBridge#requestPermission(). -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- allowBackup is off so a plain `adb backup` can't pull this app's
+         data (progress + cached vocab) off the device without root. -->
+    <application
+        android:allowBackup="false"
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:theme="@style/Theme.EZGerman"
+        android:hardwareAccelerated="true">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboard|keyboardHidden|uiMode|density|fontScale|layoutDirection|locale">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
