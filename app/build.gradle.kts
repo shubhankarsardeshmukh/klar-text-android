@@ -10,8 +10,8 @@ android {
         applicationId = "com.klartext.app"
         minSdk = 24
         targetSdk = 34
-        versionCode = 18
-        versionName = "1.4.7"
+        versionCode = 21
+        versionName = "1.4.10"
     }
 
     // A fixed debug key (committed on purpose) so every build, including the

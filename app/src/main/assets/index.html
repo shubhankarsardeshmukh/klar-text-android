@@ -841,8 +841,53 @@ body {
   border-top: 1px solid var(--bg-surface-elevated);
   padding-top: 12px; margin-top: 4px;
 }
-.grade-actions { display: none; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; }
+.grade-actions { display: none; grid-template-columns: 1fr; gap: 12px; width: 100%; }
 .grade-actions.show { display: grid; }
+.game-card { padding:16px; }
+.gm-top { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px; }
+.gm-level b { font-size:1.05rem; font-weight:900; color:var(--text-primary); }
+.gm-level span { font-size:.78rem; font-weight:800; color:var(--color-brand-gold, #B7791F); margin-left:6px; text-transform:uppercase; letter-spacing:.04em; }
+.gm-xp { font-weight:900; color:var(--text-secondary); font-size:.9rem; }
+.gm-bar { height:10px; margin-bottom:10px; }
+.gm-goalrow { display:flex; justify-content:space-between; font-size:.82rem; font-weight:700; color:var(--text-secondary); margin-bottom:4px; }
+.gm-goalpct { font-weight:900; color:var(--color-success-dark, #047857); }
+.gm-daily { margin-top:6px; padding-top:12px; border-top:2px dashed var(--bg-surface-elevated, #E5E7EB); }
+.gm-daily-title { font-weight:900; font-size:.95rem; color:var(--text-primary); }
+.gm-theme { font-size:.7rem; font-weight:800; padding:2px 8px; border-radius:999px; background:var(--bg-surface-elevated, #EEF2FF); color:var(--text-secondary); margin-left:6px; vertical-align:middle; }
+.gm-done { font-size:.75rem; font-weight:900; color:var(--color-success-dark, #047857); margin-left:6px; }
+.gm-sub { font-size:.82rem; font-weight:600; color:var(--text-muted); margin-top:4px; }
+.gm-steps { display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
+.gm-step { font-size:.78rem; font-weight:800; padding:4px 10px; border-radius:999px; background:var(--bg-surface-elevated, #EEF2FF); color:var(--text-secondary); }
+.gm-step.done { background:#D1FAE5; color:#047857; }
+.gm-step.bonus { background:#FEF3C7; color:#92400E; }
+.gm-badges { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin:10px 0; }
+.gm-badge { text-align:center; opacity:.32; filter:grayscale(1); }
+.gm-badge.got { opacity:1; filter:none; }
+.gm-badge span { display:block; font-size:1.6rem; line-height:1.2; }
+.gm-badge small { display:block; font-size:.62rem; font-weight:800; color:var(--text-secondary); line-height:1.15; margin-top:2px; }
+.gm-goalpick { display:flex; align-items:center; gap:6px; font-size:.82rem; font-weight:800; color:var(--text-secondary); margin-top:6px; }
+.gm-goalpick span { margin-right:auto; }
+.gm-goalbtn { border:2px solid var(--bg-surface-elevated, #E5E7EB); background:transparent; border-radius:999px; padding:4px 12px; font-weight:800; font-size:.78rem; color:var(--text-secondary); cursor:pointer; font-family:inherit; }
+.gm-goalbtn.on { background:var(--color-brand-blue, #1E3A8A); border-color:var(--color-brand-blue, #1E3A8A); color:#fff; }
+.gm-comeback { margin-top:12px; font-size:.82rem; font-weight:700; color:var(--text-secondary); }
+#gmBanner { position:fixed; top:14px; left:50%; transform:translate(-50%,-140%); z-index:9998; background:#1E3A8A; color:#fff; border-radius:16px; padding:10px 18px; max-width:92vw; text-align:center; box-shadow:0 8px 24px rgba(0,0,0,.25); transition:transform .35s ease; pointer-events:none; }
+#gmBanner.show { transform:translate(-50%,0); }
+#gmBanner b { display:block; font-weight:900; font-size:.95rem; }
+#gmBanner span { display:block; font-size:.78rem; font-weight:600; opacity:.9; }
+#xpPop { position:fixed; top:70px; left:50%; transform:translate(-50%,0); z-index:9999; background:#FEF3C7; color:#92400E; border:2px solid #F59E0B; border-radius:999px; padding:6px 16px; font-weight:900; font-size:.95rem; opacity:0; pointer-events:none; }
+#xpPop.go { animation:xpPop 1.1s ease-out; }
+@keyframes xpPop { 0%{opacity:0; transform:translate(-50%,8px) scale(.9);} 15%{opacity:1; transform:translate(-50%,0) scale(1.05);} 70%{opacity:1;} 100%{opacity:0; transform:translate(-50%,-22px);} }
+@media (prefers-reduced-motion: reduce){ #xpPop.go{ animation:none; opacity:1; } }
+#speakRow { display:none; width:100%; text-align:center; }
+#speakRow.show { display:block; }
+.mic-btn { width:100%; display:flex; align-items:center; justify-content:center; gap:10px; padding:16px 14px; border-radius:18px; border:2px solid var(--color-brand-blue, #1E3A8A); background:var(--color-brand-blue, #1E3A8A); color:#fff; font-weight:800; font-size:1rem; cursor:pointer; box-shadow:0 4px 0 0 rgba(0,0,0,.25); font-family:inherit; }
+.mic-btn:active { transform:translateY(3px); box-shadow:none; }
+.mic-btn:disabled { opacity:.55; }
+.mic-btn.listening { background:#DC2626; border-color:#DC2626; animation:micPulse 1.1s ease-in-out infinite; }
+@keyframes micPulse { 0%,100%{ box-shadow:0 0 0 0 rgba(220,38,38,.5);} 50%{ box-shadow:0 0 0 12px rgba(220,38,38,0);} }
+#micHeard { min-height:1.5em; margin:10px 0 4px; font-weight:700; font-size:.92rem; color:var(--text-secondary); }
+.mic-type { background:none; border:none; color:var(--text-muted); font-weight:700; font-size:.85rem; text-decoration:underline; cursor:pointer; padding:6px; font-family:inherit; }
+@media (prefers-reduced-motion: reduce){ .mic-btn.listening{ animation:none; } }
 #missBtn { background-color: #FEE2E2; color: var(--color-error-dark); border: 2px solid #FCA5A5; box-shadow: 0 4px 0 0 #FCA5A5; }
 #missBtn:active { transform: translateY(3px); box-shadow: none; }
 #hitBtn { background-color: #D1FAE5; color: var(--color-success-dark); border: 2px solid #6EE7B7; box-shadow: 0 4px 0 0 #6EE7B7; }
@@ -1722,6 +1767,7 @@ body[data-screen="practice"] .fab-row, body[data-screen="memorize"] .fab-row, bo
   </div>
 
   <div id="homeDueForecast" class="due-forecast"></div>
+  <div class="ui-card game-card" id="homeGame"></div>
 
   <div class="ui-card" id="continueCard" style="display:none;">
     <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
@@ -2016,12 +2062,19 @@ body[data-screen="practice"] .fab-row, body[data-screen="memorize"] .fab-row, bo
       <input type="text" id="typedRecallInput" placeholder="Type the German word..." autocomplete="off" autocapitalize="off" spellcheck="false" />
       <button id="typedRecallSubmitBtn" class="btn-3d btn-accent" style="margin-top:8px;margin-bottom:0;">Check</button>
     </div>
+    <div id="speakRow">
+      <button id="micBtn" class="mic-btn" type="button" aria-label="Tap and say the German word">
+        <span class="mic-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></span>
+        <span id="micLabel">Tap and say it in German</span>
+      </button>
+      <div id="micHeard" aria-live="polite"></div>
+      <button id="micTypeBtn" class="mic-type" type="button">Can't speak now? Type it instead</button>
+    </div>
     <div id="choiceRow"></div>
     <div id="exerciseFeedback"></div>
     <div id="continueRow"><button id="continueBtn" class="btn-3d btn-primary" type="button">Continue</button></div>
     <div id="gradeRow" class="grade-actions">
-      <button id="missBtn" class="btn-3d">Incorrect</button>
-      <button id="hitBtn" class="btn-3d">Correct</button>
+      <button id="hitBtn" class="btn-3d">Got it, next</button>
     </div>
 
     <div class="practice-toolbar" id="flagRow">
@@ -2319,9 +2372,11 @@ body[data-screen="practice"] .fab-row, body[data-screen="memorize"] .fab-row, bo
     <button id="howtoProfileBtn" class="btn-3d btn-secondary" style="margin-bottom:0; font-size:0.9rem;"><span>▶ Open the guide</span></button>
   </div>
 
+  <div class="ui-card" id="gameProfileCard"></div>
+
   <div class="ui-card">
     <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 4px;">
-      <h4 style="font-size: 0.8rem; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; margin:0;">Say new words aloud</h4>
+      <h4 style="font-size: 0.8rem; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; margin:0;">Say new words aloud (off by default)</h4>
       <label class="switch" style="position:relative; display:inline-block; width:46px; height:26px;">
         <input type="checkbox" id="autoSpeakToggle" style="opacity:0;width:0;height:0;">
         <span id="autoSpeakToggleTrack" style="position:absolute;cursor:pointer;inset:0;background:var(--bg-surface-elevated);border-radius:999px;transition:.2s;"></span>
@@ -2550,8 +2605,8 @@ let cloudFlushTimer = null;
 const CLOUD_SYNC_KEYS = [
   'leitner-progress','wortschatz-activity','wortschatz-daily-word-goal',
   'wortschatz-onboarded','wortschatz-setup-prefs','wortschatz-missed-queue',
-  'wortschatz-session-log','wortschatz-typed-recall-enabled','wortschatz-question-style','wortschatz-sound','wortschatz-autospeak','klartext-howto-seen','klartext-grammar-progress','wortschatz-show-hindi','wortschatz-exam-history','wortschatz-saved-words',
-  'wortschatz-reminder-enabled','wortschatz-reminder-time'
+  'wortschatz-session-log','wortschatz-typed-recall-enabled','wortschatz-question-style','wortschatz-sound','wortschatz-autospeak','klartext-autospeak','klartext-howto-seen','klartext-grammar-progress','wortschatz-show-hindi','wortschatz-exam-history','wortschatz-saved-words',
+  'wortschatz-reminder-enabled','wortschatz-reminder-time','klartext-game'
 ];
 
 function initFirebase(){
@@ -4588,15 +4643,50 @@ function applyRetheme(cards, slug){
    schema below) into assets/data/, then add its filename to DATA_PACKS.
    No other app code needs to change — categories, level filters, and
    counts all recompute automatically from whatever is loaded. */
-const DATA_PACKS = [
-  "data/wortschatz_merged_v12.dat"
-];
+// Built-in fallback used only when data/manifest.json cannot be read. The
+// manifest is the real list; edit that (or run content/build_content.py).
+const DEFAULT_MANIFEST = {schema:1, levels:[], themes:{}, aliases:{}, packs:[
+  {kind:"vocab", file:"vocab_a1.dat", idPrefix:"wortschatz_merged_v12", level:"a1"},
+  {kind:"vocab", file:"vocab_a2.dat", idPrefix:"wortschatz_merged_v12", level:"a2"},
+  {kind:"vocab", file:"vocab_b1.dat", idPrefix:"wortschatz_merged_v12", level:"b1"},
+  {kind:"vocab", file:"vocab_b2.dat", idPrefix:"wortschatz_merged_v12", level:"b2"},
+  {kind:"enrich", file:"enrich_a1.dat"}, {kind:"enrich", file:"enrich_a2.dat"},
+  {kind:"enrich", file:"enrich_b1.dat"}, {kind:"enrich", file:"enrich_b2.dat"},
+  {kind:"grammar", file:"grammar_a1.dat"}, {kind:"grammar", file:"grammar_a2.dat"},
+  {kind:"grammar", file:"grammar_b1.dat"}, {kind:"grammar", file:"grammar_b2.dat"}
+]};
+let MANIFEST = DEFAULT_MANIFEST;
+// What the loader saw, for support: which packs loaded, which failed, which entries were skipped.
+const CONTENT_REPORT = {loaded:[], failed:[], skipped:[], dropped:[], orphans:0, manifest:"default"};
+function packUrl(p){ return "data/" + p.file + (p.v ? "?v=" + encodeURIComponent(p.v) : ""); }
+async function loadManifest(){
+  try{
+    const res = await fetch("data/manifest.json", {cache:"no-cache"});
+    if(!res.ok) throw new Error("HTTP " + res.status);
+    const m = await res.json();
+    if(!m || !Array.isArray(m.packs)) throw new Error("no packs list");
+    MANIFEST = m; CONTENT_REPORT.manifest = m.contentVersion || "loaded";
+  }catch(e){
+    console.warn("[Klartext] manifest not available, using the built-in pack list", e);
+    MANIFEST = DEFAULT_MANIFEST;
+  }
+  return MANIFEST;
+}
+function manifestPacks(kind){
+  return (MANIFEST.packs || []).filter(p => p && p.kind === kind && p.file && p.enabled !== false);
+}
+async function fetchPack(p){
+  const res = await fetch(packUrl(p));
+  if(!res.ok) throw new Error("HTTP " + res.status);
+  const buf = await res.arrayBuffer();
+  return /\.json$/i.test(p.file) ? JSON.parse(new TextDecoder("utf-8").decode(buf)) : await decodeObfuscatedPack(buf);
+}
 
 // Card ids are namespaced per pack (derived from its filename) because
 // different packs are generated independently and can reuse the same raw
 // ids (e.g. both files having their own "n0") — without this, cards from
 // different packs would collide and silently overwrite each other.
-function packSlugFromPath(path){
+function packSlugFromPath(path){ // legacy helper, kept for old callers
   // Strips either extension so the resulting slug (and therefore every
   // card id) stays identical whether the pack ships as plain .json or as
   // the obfuscated .dat — otherwise swapping extensions would silently
@@ -4619,11 +4709,21 @@ function dashOrNull(v){ return (v && v !== "—" && v !== "-") ? v : null; }
 // retired word simply never enters `deck` at all, without needing every
 // downstream screen (practice, themes, search, weak words...) to
 // separately know to skip it.
-function normalizeJsonPack(pack, slug){
+// Walks one list of a pack. Retired words are skipped, and one malformed
+// entry (a missing field, a typo in the data) is logged and skipped on its own
+// instead of taking the whole pack, and with it the app, down.
+function eachItem(list, fn){
+  if(!Array.isArray(list)) return;
+  list.forEach((item, i)=>{
+    if(!item || typeof item !== "object" || item.retired) return;
+    try{ fn(item, i); }catch(e){ CONTENT_REPORT.skipped.push(String(item.id || i)); console.warn("[Klartext] skipped a malformed entry", item && item.id, e); }
+  });
+}
+function normalizeJsonPack(pack, slug, defaultLevel){
   const added = [];
-  const lvl = (x) => x.level || (pack.meta && pack.meta.level) || "a1";
+  const lvl = (x) => normLevel(x.level || (pack.meta && pack.meta.level) || defaultLevel);
 
-  (pack.nomen || []).filter(x=>!x.retired).forEach((n,i)=>{
+  eachItem(pack.nomen, (n,i)=>{
     added.push({
       id: jsonCardId(slug, "jn", n, i), type:"noun", category:"nomen",
       article: n.artikel, word: n.wort, plural: n.plural, en: n.englisch,
@@ -4635,7 +4735,7 @@ function normalizeJsonPack(pack, slug){
     });
   });
 
-  (pack.verben || []).filter(x=>!x.retired).forEach((v,i)=>{
+  eachItem(pack.verben, (v,i)=>{
     const inf = v.infinitiv;
     const eig = v.eigenschaften || {};
     const trennbar = !!eig.trennbar;
@@ -4664,7 +4764,7 @@ function normalizeJsonPack(pack, slug){
     VERB_TRENNBAR_LOOKUP[bare] = c.verbFlags.trennbar;
   });
 
-  (pack.praepositionalverben || []).filter(x=>!x.retired).forEach((p,i)=>{
+  eachItem(pack.praepositionalverben, (p,i)=>{
     const {rawKey, verb} = extractBaseVerb(p.phrase);
     const isTrennbar = VERB_TRENNBAR_LOOKUP.hasOwnProperty(verb) ? VERB_TRENNBAR_LOOKUP[verb] : PRAEPVERB_SEPARABLE_EXTRA.has(verb);
     added.push({
@@ -4675,49 +4775,49 @@ function normalizeJsonPack(pack, slug){
     });
   });
 
-  (pack.adjektive || []).filter(x=>!x.retired).forEach((a,i)=>{
+  eachItem(pack.adjektive, (a,i)=>{
     added.push({id: jsonCardId(slug, "ja", a, i), type:"adj", category:"adjektive", word:a.wort, en:a.englisch,
       example: a.beispiel || "", exampleEn: a.beispielEnglisch || "", theme: a.thema || "",
       komparativ: a.komparativ || null, superlativ: a.superlativ || null,
       antonym: firstOrNull(a.antonyme), frequency: a.haeufigkeit || null, wortfamilie: a.wortfamilie || null, level: lvl(a)});
   });
-  (pack.adverbien || []).filter(x=>!x.retired).forEach((a,i)=>{
+  eachItem(pack.adverbien, (a,i)=>{
     added.push({id: jsonCardId(slug, "jadv", a, i), type:"adv", category:"adverbien", word:a.wort, en:a.englisch,
       example: a.beispiel || "", exampleEn: a.beispielEnglisch || "", theme: a.thema || "",
       funktion: a.funktion || null, antonym: firstOrNull(a.antonyme), frequency: a.haeufigkeit || null, wortfamilie: a.wortfamilie || null, level: lvl(a)});
   });
-  (pack.konnektoren || []).filter(x=>!x.retired).forEach((k,i)=>{
+  eachItem(pack.konnektoren, (k,i)=>{
     added.push({id: jsonCardId(slug, "jk", k, i), type:"konn", category:"konnektoren", word:k.wort, en:k.englisch,
       example: k.beispiel || "", exampleEn: k.beispielEnglisch || "", theme: k.thema || "",
       funktion: k.typ || null, wortstellung: k.wortstellung || null, frequency: k.haeufigkeit || null, level: lvl(k)});
   });
-  (pack.daWoWoerter || []).filter(x=>!x.retired).forEach((d,i)=>{
+  eachItem(pack.daWoWoerter, (d,i)=>{
     added.push({id: jsonCardId(slug, "jdw", d, i), type:"dawo", category:"dawo", word:d.wort, en:d.englisch,
       example: d.beispiel || "", exampleEn: d.beispielEnglisch || "", theme: d.thema || "",
       funktion: d.funktion || null, frequency: d.haeufigkeit || null, level: lvl(d)});
   });
-  (pack.praepositionen || []).filter(x=>!x.retired).forEach((p,i)=>{
+  eachItem(pack.praepositionen, (p,i)=>{
     added.push({id: jsonCardId(slug, "jpr", p, i), type:"praep", category:"praepositionen", word:p.wort, en:p.englisch,
       example: p.beispiel || "", exampleEn: p.beispielEnglisch || "", theme: p.thema || "",
       kasus: p.kasus || null, funktion: p.funktion || null, frequency: p.haeufigkeit || null, level: lvl(p)});
   });
-  (pack.pronomen || []).filter(x=>!x.retired).forEach((p,i)=>{
+  eachItem(pack.pronomen, (p,i)=>{
     added.push({id: jsonCardId(slug, "jpn", p, i), type:"pronomen", category:"pronomen", word:p.wort, en:p.englisch, sub: p.kategorie || p.sub || "",
       example: p.beispiel || "", exampleEn: p.beispielEnglisch || "", theme: p.thema || "",
       funktion: p.typ || null, frequency: p.haeufigkeit || null, level: lvl(p)});
   });
-  (pack.possessivpronomen || []).filter(x=>!x.retired).forEach((p,i)=>{
+  eachItem(pack.possessivpronomen, (p,i)=>{
     added.push({id: jsonCardId(slug, "jpp", p, i), type:"possessiv", category:"possessiv", word:p.wort, en:p.englisch,
       example: p.beispiel || "", exampleEn: p.beispielEnglisch || "", theme: p.thema || "",
       bezugsperson: p.bezugsperson || null, deklination: p.deklination || null, frequency: p.haeufigkeit || null, level: lvl(p)});
   });
-  (pack.fragewoerter || []).filter(x=>!x.retired).forEach((f,i)=>{
+  eachItem(pack.fragewoerter, (f,i)=>{
     added.push({id: jsonCardId(slug, "jfw", f, i), type:"frage", category:"frage", word:f.wort, en:f.englisch,
       example: f.beispiel || "", exampleEn: f.beispielEnglisch || "", theme: f.thema || "",
       funktion: f.funktion || null, frequency: f.haeufigkeit || null, level: lvl(f)});
   });
   // Idioms / fixed phrases — new category, not present in every data pack.
-  (pack.redewendungen || []).filter(x=>!x.retired).forEach((r,i)=>{
+  eachItem(pack.redewendungen, (r,i)=>{
     added.push({id: jsonCardId(slug, "jrw", r, i), type:"redewendung", category:"redewendungen", word:r.wort, en:r.englisch,
       example: r.beispiel || "", exampleEn: r.beispielEnglisch || "", theme: r.thema || "",
       funktion: r.funktion || null, frequency: r.haeufigkeit || null, level: lvl(r)});
@@ -4737,6 +4837,7 @@ function normalizeJsonPack(pack, slug){
     arr.forEach(item => { if(item && item.id) rawById[slug + "_" + item.id] = item; });
   });
   added.forEach(c=>{
+    c.rawId = c.id.indexOf(slug + "_") === 0 ? c.id.slice(slug.length + 1) : c.id;
     const raw = rawById[c.id];
     if(!raw) return;
     if(Array.isArray(raw.beispielSaetze) && raw.beispielSaetze.length) c.sentences = raw.beispielSaetze;
@@ -4776,35 +4877,87 @@ function decodeLegacyPack(base64Text){
   for(let i = 0; i < bytes.length; i++) bytes[i] ^= keyBytes[i % keyBytes.length];
   return JSON.parse(new TextDecoder("utf-8").decode(bytes));
 }
+let dataPromise = null; // one load only, even if startApp() runs twice at once
 async function loadDataPacks(){
-  for(const path of DATA_PACKS){
+  await loadManifest();
+  const results = await Promise.all(manifestPacks("vocab").map(async p=>{
     try{
-      const res = await fetch(path);
-      if(!res.ok){ console.warn("[Wortschatz] Data pack not found:", path); continue; }
-      const pack = await decodeObfuscatedPack(await res.arrayBuffer());
-      const slug = packSlugFromPath(path);
-      const newCards = normalizeJsonPack(pack, slug);
-      applyRetheme(newCards, slug);
-      deck = deck.concat(newCards);
+      const pack = await fetchPack(p);
+      const slug = p.idPrefix || packSlugFromPath(p.file);
+      const cards = normalizeJsonPack(pack, slug, p.level || (pack.meta && pack.meta.level));
+      applyRetheme(cards, slug);
+      CONTENT_REPORT.loaded.push(p.file);
+      return cards;
     }catch(e){
-      console.warn("[Wortschatz] Could not load data pack:", path, e);
+      CONTENT_REPORT.failed.push(p.file);
+      console.warn("[Klartext] Could not load data pack:", p.file, e);
+      return [];
     }
-  }
-  deck = dedupeCards(deck);
+  }));
+  let all = [];
+  results.forEach(r => { all = all.concat(r); });
+  // Defensive clean-up so no bad entry can break a screen later.
+  const ids = new Set();
+  all = all.filter(c=>{
+    const shown = c.type === "verb" ? c.inf : (c.type === "praepverb" ? c.phrase : c.word);
+    if(!c.id || !shown || !String(shown).trim()){ CONTENT_REPORT.dropped.push(String(c.id)); return false; }
+    if(ids.has(c.id)){ CONTENT_REPORT.dropped.push(c.id + " (duplicate id)"); return false; }
+    ids.add(c.id);
+    c.level = normLevel(c.level);
+    c.en = c.en == null ? "" : c.en;
+    return true;
+  });
+  deck = dedupeCards(all);
   if(deck.length === 0){
-    // Safety net: every JSON pack failed to load for some reason —
-    // fall back to the hardcoded arrays so the app still has vocabulary.
-    console.warn("[Wortschatz] No data packs loaded — falling back to built-in word list.");
+    // Safety net: every pack failed to load, so fall back to the built-in word list.
+    console.warn("[Klartext] No data packs loaded, falling back to built-in word list.");
     buildLegacyDeck();
+    deck.forEach(c => { c.level = normLevel(c.level); });
   }
   buildRedemittelDeck();
   buildFvgDeck();
-  // Recompute category counts now that data packs (or the fallback) are loaded.
+  applyManifestAliases();
+  applyManifestThemes();
+  registerLevels(MANIFEST.levels, deck.map(c => c.level).concat((GRAMMAR || []).map(l => l.level)));
   Object.keys(CATS).forEach(key=>{
     CATS[key].count = key==="alle" ? deck.length : deck.filter(c=>c.category===key).length;
   });
   deckById = {};
   deck.forEach(c => { deckById[c.id] = c; });
+  if(CONTENT_REPORT.failed.length || CONTENT_REPORT.skipped.length || CONTENT_REPORT.dropped.length) console.warn("[Klartext] content report", CONTENT_REPORT);
+}
+// Word renamed or merged in the data? List it under "aliases" in the manifest
+// ({"old id": "new id"}) and the learner's progress moves with it.
+function applyManifestAliases(){
+  const al = MANIFEST.aliases || {};
+  const prefixes = Array.from(new Set(manifestPacks("vocab").map(p => p.idPrefix).filter(Boolean)));
+  const live = new Set(deck.map(c => c.id));
+  // Ids may be written as in the source files ("a1a2_n5") or in full ("wortschatz_merged_v12_a1a2_n5").
+  const variants = id => [id].concat(prefixes.map(p => p + "_" + id));
+  const resolveLive = id => {
+    let cur = id, hops = 0;
+    while(al[cur] !== undefined && hops++ < 10) cur = al[cur];
+    return variants(cur).find(v => live.has(v)) || null;
+  };
+  Object.keys(al).forEach(from=>{
+    const to = resolveLive(from);
+    if(!to) return;
+    variants(from).forEach(f => { if(f !== to && !live.has(f)) DEDUP_ALIAS[f] = to; });
+  });
+}
+// Theme labels, icons and groups can be set or changed from the manifest.
+function applyManifestThemes(){
+  const th = MANIFEST.themes || {};
+  Object.keys(th).forEach(key=>{
+    const t = th[key] || {};
+    THEME_INFO[key] = {label: t.label || (THEME_INFO[key] && THEME_INFO[key].label) || key, icon: t.icon || (THEME_INFO[key] && THEME_INFO[key].icon) || "📚"};
+    if(t.family){
+      THEME_FAMILIES.forEach(f => { const k = f.keys.indexOf(key); if(k !== -1 && f.label !== t.family) f.keys.splice(k, 1); });
+      let fam = THEME_FAMILIES.find(f => f.label === t.family);
+      if(!fam){ fam = {label: t.family, keys: []}; THEME_FAMILIES.push(fam); }
+      if(fam.keys.indexOf(key) === -1) fam.keys.push(key);
+    }
+  });
 }
 
 /* ============ DE-DUPLICATION ============
@@ -4815,7 +4968,42 @@ async function loadDataPacks(){
    differing English meanings, and remember old-id -> kept-id so existing
    learners' progress on the removed copy is carried over (migrateDedupProgress). */
 const DEDUP_ALIAS = {};
-const LEVEL_RANK = {a1:0, a2:1, b1:2, b2:3, c1:4};
+/* ============ LEVEL REGISTRY ============
+   Levels are no longer a fixed A1..B2 list. They come from data/manifest.json
+   (labels, names, order) plus whatever levels the loaded words and lessons
+   actually use, so adding C1 or C2 content needs no code change. */
+const LEVEL_RANK = {};      // level id -> position (0 = easiest)
+const LEVEL_NAMES = {};     // level id -> "Beginner" etc.
+let LEVEL_ORDER = [];       // level ids, easiest first
+function normLevel(l){ return String(l == null ? "" : l).toLowerCase().trim() || "a1"; }
+function levelSortKey(id){
+  const m = /^([a-z])(\d+)$/.exec(id);
+  return m ? m[1].charCodeAt(0) * 100 + Number(m[2]) : 99999;
+}
+function levelRank(l){ return LEVEL_RANK[l] !== undefined ? LEVEL_RANK[l] : 999; }
+// cfg: levels from the manifest (may be empty); extra: level ids seen in the data.
+function registerLevels(cfg, extra){
+  const info = {};
+  (Array.isArray(cfg) ? cfg : []).forEach((l, i)=>{
+    if(!l || !l.id) return;
+    const id = normLevel(l.id);
+    info[id] = {label: l.label || id.toUpperCase(), name: l.name || "", order: typeof l.order === "number" ? l.order : i + 1};
+  });
+  (extra || []).forEach(raw=>{
+    const id = normLevel(raw);
+    if(!info[id]) info[id] = {label: id.toUpperCase(), name: "", order: 1000};
+  });
+  LEVEL_ORDER = Object.keys(info).sort((a, b)=> (info[a].order - info[b].order) || (levelSortKey(a) - levelSortKey(b)) || a.localeCompare(b));
+  Object.keys(LEVEL_RANK).forEach(k => delete LEVEL_RANK[k]);
+  Object.keys(LEVEL_LABELS).forEach(k => delete LEVEL_LABELS[k]);
+  LEVEL_LABELS.alle = "All levels";
+  LEVEL_ORDER.forEach((id, i)=>{ LEVEL_RANK[id] = i; LEVEL_LABELS[id] = info[id].label; LEVEL_NAMES[id] = info[id].name; });
+}
+// Levels that really have words in the deck, easiest first.
+function levelsInDeck(){
+  const have = new Set(deck.map(c => c.level));
+  return LEVEL_ORDER.filter(l => have.has(l));
+}
 function dedupeKey(c){
   const w = c.type === "verb" ? c.inf : (c.type === "praepverb" ? c.phrase : c.word);
   return c.category + "|" + (c.article || "") + "|" + String(w == null ? "" : w).trim().toLowerCase();
@@ -4831,7 +5019,7 @@ function dedupeCards(cards){
   const drop = new Set();
   groups.forEach(list=>{
     if(list.length < 2) return;
-    list.sort((a, b)=> ((LEVEL_RANK[a.c.level] ?? 9) - (LEVEL_RANK[b.c.level] ?? 9)) || (a.i - b.i));
+    list.sort((a, b)=> (levelRank(a.c.level) - levelRank(b.c.level)) || (a.i - b.i));
     const keep = list[0].c;
     list.slice(1).forEach(({c})=>{
       Object.keys(c).forEach(f=>{ if(f !== "id" && f !== "level" && isEmptyField(keep[f]) && !isEmptyField(c[f])) keep[f] = c[f]; });
@@ -4879,7 +5067,7 @@ let currentCategory = "alle";
 let verbSubFilter = "alle"; // alle | modal | trennbar | reflexiv | praeposition | unregelmaessig
 let currentMode = "de-en"; // de-en | en-de
 let currentLevel = "alle"; // alle | a1 | a2 | b1 | b2 | c1
-const LEVEL_LABELS = {alle:"All levels", a1:"A1", a2:"A2", b1:"B1", b2:"B2", c1:"C1"};
+const LEVEL_LABELS = {alle:"All levels", a1:"A1", a2:"A2", b1:"B1", b2:"B2", c1:"C1", c2:"C2"}; // rebuilt from the manifest by registerLevels()
 
 /* Global level filter — set once during onboarding, editable later from
    Profile & Settings. Used everywhere (Word Type, Theme, Continue
@@ -5688,8 +5876,7 @@ function renderLevelMultiSelect(containerId, onChange){
   const row = document.getElementById(containerId);
   if(!row) return;
   row.innerHTML = "";
-  Object.keys(LEVEL_LABELS).forEach(key=>{
-    if(key === "alle") return;
+  levelsInDeck().forEach(key=>{
     const count = levelCountForLevels(new Set([key]));
     if(count === 0) return; // only offer levels that actually have cards
     const chip = document.createElement('div');
@@ -5723,8 +5910,24 @@ function renderProfileLevels(){
    major = big/breaking-ish change. Hidden from ordinary use — reached
    only via 5 taps on the version footer in Profile (see wireVersionTap
    below) — never linked to from anywhere else in the UI. */
-const APP_VERSION = "1.17.6";
+const APP_VERSION = "1.20.0";
 const APP_CHANGELOG = [
+  { version: "1.20.0", date: "2026-10-21", changes: [
+      "Behind the scenes: words, levels and themes now load from a content manifest, one file per level. New words, removed words and extra levels such as C1 and C2 can be added without touching the app, and your progress is kept.",
+      "A damaged or missing word file no longer stops the app. It skips the problem and keeps going.",
+      "Level lists (home, browse, exams, grammar) follow the content, so a new level appears by itself once it has words."
+  ]},
+  { version: "1.19.0", date: "2026-10-21", changes: [
+      "Points and levels: you earn XP for right answers (speaking earns the most), grammar exercises and lessons. Your level and a daily XP goal are on the home screen.",
+      "New daily lesson: today's words (reviews that are due plus the next new topic) and a short grammar challenge from the lessons already in the app. Finish both for a bonus.",
+      "Badges for streaks, speaking, grammar and daily lessons, in Profile. You can change your daily goal there too.",
+      "Welcome back message when you return after a few days away. In the Android app you can also get a gentle nudge if you stay away."
+  ]},
+  { version: "1.18.0", date: "2026-10-20", changes: [
+      "New speaking exercise: say the German word out loud and the app listens and checks it. If you cannot speak right now, tap \"Type it instead\".",
+      "Flip cards no longer ask Correct or Incorrect. New words just show a single Got it button, and practice uses choices, typing and speaking.",
+      "New words are no longer pronounced automatically. The speaker button is still there when you want to listen, and the old switch in Profile is off by default."
+  ]},
   { version: "1.17.6", date: "2026-10-18", changes: [
       "Fixed: closing the Google sign-in window without choosing an account no longer leaves the Google button stuck."
   ]},
@@ -5921,8 +6124,8 @@ function saetzeWordLines(){
 function saetzePromptText(){
   const lines = saetzeWordLines();
   const levels = selectedLevels.size > 0
-    ? Array.from(selectedLevels).map(l => l.toUpperCase()).sort().join("/")
-    : "A1-B2";
+    ? Array.from(selectedLevels).sort((a, b)=> levelRank(a) - levelRank(b)).map(l => l.toUpperCase()).join("/")
+    : (levelsInDeck().length ? levelsInDeck()[0].toUpperCase() + "-" + levelsInDeck().slice(-1)[0].toUpperCase() : "A1-B2");
   return [
     `I am learning German at around ${levels} level. Here are the words I am working on right now:`,
     "",
@@ -10515,6 +10718,7 @@ function startSessionWithFilter(filter, modeOverride){
 
 async function finishSession(){
   setTimeout(()=>sfx('complete'), 250);
+  if(sessionKind === "daily" && sessionSeen > 0){ try{ await gameDailyVocabDone(); }catch(e){} }
   if(lookupMode){ lookupMode = false; }
   // A themed Learn session finishing naturally (reaching the end of the
   // list, or tapping "End Session") counts as a completed sitting just
@@ -10809,15 +11013,16 @@ function rescheduleLearningWord(id, learningStreak){
    German → English or English → German. */
 let questionStyle = "mixed"; // mixed | flip | choice | typing
 const QUESTION_STYLES = [
-  {key:"mixed",  label:"Mixed (recommended)", sub:"Flip, choices and typing, chosen by how well you know each word"},
-  {key:"flip",   label:"Flip cards only",     sub:"Look, flip, and say whether you knew it"},
+  {key:"mixed",  label:"Mixed (recommended)", sub:"Choices, typing and speaking, chosen by how well you know each word"},
   {key:"choice", label:"Multiple choice",     sub:"Tap the right answer out of four"},
-  {key:"typing", label:"Typing",              sub:"Type the answer and the app judges it"}
+  {key:"typing", label:"Typing",              sub:"Type the answer and the app judges it"},
+  {key:"speak",  label:"Speaking",            sub:"Say the German word out loud and the app listens (English to German)"}
 ];
 async function loadQuestionStyle(){
   try{
     const res = await window.storage.get('wortschatz-question-style', false);
-    if(res && res.value && QUESTION_STYLES.some(q => q.key === res.value)) questionStyle = res.value;
+    if(res && res.value === "flip") questionStyle = "mixed";
+    else if(res && res.value && QUESTION_STYLES.some(q => q.key === res.value)) questionStyle = res.value;
   }catch(e){ /* keep default */ }
 }
 async function saveQuestionStyle(){
@@ -10920,20 +11125,23 @@ function typingAllowed(card){
    1st-2nd correct recall = choice, 3rd-4th = typing, graduated words = a mix. */
 function pickExercise(card){
   if(lookupMode) return "flip";
-  if(questionStyle === "flip") return "flip";
   const entry = getEntry(card.id);
   const graduated = entry.status === "active";
   const ls = entry.learningStreak || 0;
-  if(!graduated && ls === 0) return "flip";
+  if(!graduated && ls === 0) return "flip"; // first meeting: look, flip, Got it
+  // Speaking only goes English -> German: say the German word you just read.
+  const canSpeak = currentMode !== "de-en" && speechAvailable() && typingAllowed(card);
   let kind;
   if(questionStyle === "choice") kind = "choice";
   else if(questionStyle === "typing") kind = "typing";
+  else if(questionStyle === "speak") kind = canSpeak ? "speak" : "typing";
   else if(graduated){
     const r = Math.random();
-    kind = r < 0.34 ? "flip" : (r < 0.67 ? "choice" : "typing");
+    kind = r < 0.34 ? "choice" : (r < 0.67 ? "typing" : (canSpeak ? "speak" : "typing"));
   } else {
-    kind = ls <= 2 ? "choice" : "typing";
+    kind = ls <= 2 ? "choice" : (canSpeak && Math.random() < 0.5 ? "speak" : "typing");
   }
+  if(kind === "speak" && !canSpeak) kind = "typing";
   if(kind === "typing" && !typingAllowed(card)) kind = "choice";
   return kind;
 }
@@ -11133,6 +11341,7 @@ function resetExerciseUI(){
   if(fb){ fb.textContent = ""; fb.className = ""; }
   const cont = document.getElementById('continueRow');
   if(cont) cont.classList.remove('show');
+  resetSpeakUI();
 }
 
 function setupExercise(card){
@@ -11155,6 +11364,10 @@ function setupExercise(card){
       row.appendChild(b);
     });
     row.classList.add('show');
+  } else if(exerciseType === "speak"){
+    exerciseActive = true;
+    const sr = document.getElementById('speakRow');
+    if(sr) sr.classList.add('show');
   } else if(exerciseType === "typing"){
     exerciseActive = true;
     typedRecallActive = true;
@@ -11194,7 +11407,7 @@ function showContinue(){
 /* A correct answer moves on by itself after a short look at the back of the
    card. A wrong answer is saved at once but waits for Continue, so the
    learner can actually read the answer. */
-async function finishExercise(isRight){
+async function finishVocabExercise(isRight){
   exerciseAnswered = true;
   const token = exerciseToken;
   revealAnswer();
@@ -11215,6 +11428,125 @@ function continueAfterWrong(){
   nextCard();
 }
 
+/* ---- Speaking: say the German word, the app listens ----
+   Browsers with speech recognition (Chrome, Edge, Safari) use it directly.
+   The Android app has no browser recognizer inside its WebView, so it asks
+   Android's own recognizer through the AndroidSpeech bridge. With neither,
+   the exercise is never picked and typing is used instead. */
+let listening = false, speakAttempts = 0, speechRec = null;
+function speechAvailable(){
+  try{ if(window.AndroidSpeech && window.AndroidSpeech.isAvailable) return !!window.AndroidSpeech.isAvailable(); }catch(e){}
+  return !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+}
+const SPOKEN_DIGITS = {"0":"null","1":"eins","2":"zwei","3":"drei","4":"vier","5":"fuenf","6":"sechs","7":"sieben","8":"acht","9":"neun","10":"zehn","11":"elf","12":"zwoelf"};
+function listenGerman(){
+  return new Promise(resolve=>{
+    let done = false;
+    const finish = (alts, err)=>{ if(done) return; done = true; resolve({alts: alts || [], err: err || null}); };
+    if(window.AndroidSpeech){
+      window.__onNativeSpeech = (arr, err)=>{
+        if(err === "ready") return; // the mic is open, keep waiting for the result
+        window.__onNativeSpeech = null;
+        finish(Array.isArray(arr) ? arr : [], err);
+      };
+      try{ window.AndroidSpeech.start("de-DE"); }catch(e){ finish([], "unavailable"); }
+      return;
+    }
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if(!SR){ finish([], "unavailable"); return; }
+    try{
+      const r = new SR();
+      speechRec = r;
+      r.lang = "de-DE"; r.continuous = false; r.interimResults = false; r.maxAlternatives = 5;
+      let alts = [];
+      r.onresult = ev=>{ try{ alts = Array.from(ev.results[0]).map(x=>x.transcript); }catch(e){} };
+      r.onerror = ev=>{ finish([], ev.error === "not-allowed" || ev.error === "service-not-allowed" ? "permission" : (ev.error || "error")); };
+      r.onend = ()=>finish(alts, alts.length ? null : "no-speech");
+      r.start();
+    }catch(e){ finish([], "unavailable"); }
+  });
+}
+function stopListening(){
+  try{ if(window.AndroidSpeech && window.AndroidSpeech.stop) window.AndroidSpeech.stop(); }catch(e){}
+  try{ if(speechRec) speechRec.abort(); }catch(e){}
+  speechRec = null; window.__onNativeSpeech = null;
+}
+function setMicState(on){
+  const b = document.getElementById('micBtn'), l = document.getElementById('micLabel');
+  if(!b) return;
+  b.classList.toggle('listening', on);
+  if(l) l.textContent = on ? "Listening… say it now" : "Tap and say it in German";
+}
+function setHeard(t){ const h = document.getElementById('micHeard'); if(h) h.textContent = t || ""; }
+function resetSpeakUI(){
+  stopListening();
+  listening = false; speakAttempts = 0;
+  const sr = document.getElementById('speakRow'); if(sr) sr.classList.remove('show');
+  const b = document.getElementById('micBtn'); if(b){ b.disabled = false; b.classList.remove('listening'); }
+  setMicState(false); setHeard("");
+}
+function switchSpeakToTyping(){
+  if(exerciseType !== "speak" || exerciseAnswered) return;
+  stopListening(); listening = false; setMicState(false);
+  const sr = document.getElementById('speakRow'); if(sr) sr.classList.remove('show');
+  typedRecallActive = true;
+  const typedRow = document.getElementById('typedRecallRow');
+  const typedInput = document.getElementById('typedRecallInput');
+  if(typedRow) typedRow.style.display = "block";
+  if(typedInput){ typedInput.placeholder = "Type the German word…"; setTimeout(()=>typedInput.focus(), 50); }
+}
+async function onMicTap(){
+  if(!currentCard || exerciseType !== "speak" || exerciseAnswered || listening) return;
+  const token = exerciseToken;
+  try{ stopSpeech(); }catch(e){}
+  listening = true; setHeard(""); setMicState(true);
+  const r = await listenGerman();
+  if(token !== exerciseToken || exerciseAnswered) return;
+  listening = false; setMicState(false);
+  if(r.err === "permission"){ setHeard("The microphone is blocked. Allow it in your settings, or type the word instead."); return; }
+  if(r.err === "unavailable" || r.err === "network"){ setHeard("Speech recognition is not available right now. Type it instead."); return; }
+  const alts = (r.alts || []).map(a=>{ const t = String(a).trim(); return SPOKEN_DIGITS[t] || t; }).filter(Boolean);
+  if(!alts.length){ setHeard("I did not catch that. Tap the microphone and try again."); sfx("almost"); return; }
+  const rank = {wrong:0, almost:1, correct:2};
+  let best = {result:"wrong", hint:"", text: alts[0]};
+  // Recognizers often split a compound ("Bahn hof") or add a full stop, so each
+  // guess is also tried with the spaces closed up (an article stays in front).
+  const variants = a=>{
+    const v = [a];
+    const m = a.match(/^(der|die|das)\s+(.+)$/i);
+    const closed = m ? m[1] + " " + m[2].replace(/\s+/g, "") : a.replace(/\s+/g, "");
+    if(closed !== a) v.push(closed);
+    return v;
+  };
+  alts.forEach(a=>{
+    variants(a).forEach(x=>{
+      const j = judgeTypedAnswer(x, currentCard, "en-de");
+      if(rank[j.result] > rank[best.result]) best = {result:j.result, hint:j.hint, text:a};
+      else if(j.hint && best.result === "wrong" && !best.hint) best.hint = j.hint;
+    });
+  });
+  const answerShown = answerTextFor(currentCard, "en-de");
+  const mic = document.getElementById('micBtn');
+  if(best.result !== "wrong"){
+    exerciseAnswered = true; if(mic) mic.disabled = true;
+    sfx("correct");
+    setHeard('I heard: "' + best.text + '"');
+    showFeedback("correct", "Correct");
+    await finishVocabExercise(true);
+    return;
+  }
+  speakAttempts++;
+  sfx("wrong");
+  if(speakAttempts >= 2){
+    exerciseAnswered = true; if(mic) mic.disabled = true;
+    setHeard('I heard: "' + best.text + '"');
+    showFeedback("wrong", (best.hint ? best.hint + ". " : "") + "The answer: " + answerShown);
+    await finishVocabExercise(false);
+  } else {
+    setHeard('I heard: "' + best.text + '". ' + (best.hint ? best.hint + ". " : "") + "Try once more, or type it.");
+  }
+}
+
 async function answerChoice(btn){
   if(!currentCard || exerciseType !== "choice" || exerciseAnswered) return;
   exerciseAnswered = true;
@@ -11228,7 +11560,7 @@ async function answerChoice(btn){
   });
   sfx(isRight ? "correct" : "wrong");
   showFeedback(isRight ? "correct" : "wrong", isRight ? "Correct" : "Not quite. The answer is highlighted.");
-  await finishExercise(isRight);
+  await finishVocabExercise(isRight);
 }
 
 async function submitTypedRecall(){
@@ -11248,11 +11580,12 @@ async function submitTypedRecall(){
   if(j.result === "correct") showFeedback("correct", "Correct");
   else if(j.result === "almost") showFeedback("almost", `Almost. Correct spelling: ${answerShown}`);
   else showFeedback("wrong", (j.hint ? j.hint + ". " : "") + `The answer: ${answerShown}`);
-  await finishExercise(j.result !== "wrong");
+  await finishVocabExercise(j.result !== "wrong");
 }
 
 async function grade(correct){
   if(!currentCard || !flipped) return;
+  if(correct && !lookupMode){ try{ gameOnVocabCorrect(exerciseType); }catch(e){} }
   const id = currentCard.id;
   const priorEntry = leitner[id];
   const wasGraduated = !!(priorEntry && priorEntry.status === "active");
@@ -12076,9 +12409,10 @@ function showConfirm(message){
 
 /* ============ EVENTS ============ */
 document.getElementById('card').addEventListener('click', flipCard);
-document.getElementById('missBtn').addEventListener('click', ()=>{ if(!exerciseActive){ sfx('wrong'); grade(false); } });
 document.getElementById('hitBtn').addEventListener('click', ()=>{ if(!exerciseActive){ sfx('correct'); grade(true); } });
 document.getElementById('continueBtn').addEventListener('click', continueAfterWrong);
+document.getElementById('micBtn').addEventListener('click', onMicTap);
+document.getElementById('micTypeBtn').addEventListener('click', switchSpeakToTyping);
 document.getElementById('directionBtn').addEventListener('click', toggleDirection);
 document.getElementById('shuffleBtn').addEventListener('click', nextCard);
 document.getElementById('typedRecallSubmitBtn').addEventListener('click', submitTypedRecall);
@@ -12485,7 +12819,7 @@ document.getElementById('resetBtn').addEventListener('click', async ()=>{
     sessionLog = [];
     questionStyle = "mixed";
     soundEnabled = true;
-    autoSpeak = true;
+    autoSpeak = false;
     howtoSeen = false;
     grammarProgress = {};
     showHindi = false;
@@ -12508,13 +12842,15 @@ document.getElementById('resetBtn').addEventListener('click', async ()=>{
         window.storage.delete('wortschatz-question-style', false),
         window.storage.delete('wortschatz-sound', false),
         window.storage.delete('wortschatz-autospeak', false),
+        window.storage.delete('klartext-autospeak', false),
         window.storage.delete('klartext-howto-seen', false),
         window.storage.delete('klartext-grammar-progress', false),
         window.storage.delete('wortschatz-show-hindi', false),
         window.storage.delete('wortschatz-exam-history', false),
         window.storage.delete('wortschatz-saved-words', false),
         window.storage.delete('wortschatz-reminder-enabled', false),
-        window.storage.delete('wortschatz-reminder-time', false)
+        window.storage.delete('wortschatz-reminder-time', false),
+        window.storage.delete('klartext-game', false)
       ]);
     }catch(e){ /* best-effort — in-memory state above is already cleared either way */ }
     renderOnboardingLevels();
@@ -12617,7 +12953,7 @@ function renderBrowse(){
   // Level chips, with real counts
   const lvlRow = document.getElementById('browseLevelRow');
   lvlRow.innerHTML = "";
-  const levels = [["a1","A1"],["a2","A2"],["b1","B1"],["b2","B2"],["alle","All"]];
+  const levels = LEVEL_ORDER.map(l => [l, LEVEL_LABELS[l]]).concat([["alle","All"]]);
   levels.forEach(([key,label])=>{
     const n = key === "alle" ? deck.length : deck.filter(c => c.level === key).length;
     if(n === 0) return;
@@ -12702,8 +13038,8 @@ function renderBrowse(){
 function openBrowse(){
   // Start on the learner's lowest chosen level, or A1.
   if(!document.getElementById('screenBrowse').dataset.opened){
-    const chosen = ["a1","a2","b1","b2"].filter(l => selectedLevels.has(l));
-    browseLevel = chosen[0] || "a1";
+    const chosen = LEVEL_ORDER.filter(l => selectedLevels.has(l));
+    browseLevel = chosen[0] || levelsInDeck()[0] || "alle";
     document.getElementById('screenBrowse').dataset.opened = "1";
   }
   browseLimit = 150;
@@ -12749,8 +13085,8 @@ async function saveExamHistory(){
 
 function examLevelSet(){
   if(!examSetup.levels){
-    const chosen = ["a1","a2","b1","b2"].filter(l => selectedLevels.has(l));
-    examSetup.levels = new Set(chosen.length ? chosen : ["a1"]);
+    const chosen = LEVEL_ORDER.filter(l => selectedLevels.has(l));
+    examSetup.levels = new Set(chosen.length ? chosen : [levelsInDeck()[0] || "a1"]);
   }
   return examSetup.levels;
 }
@@ -12815,7 +13151,7 @@ function relativeDay(iso){
 function renderExamSetup(){
   const lv = examLevelSet();
   const lvRow = document.getElementById('examLevelRow'); lvRow.innerHTML = "";
-  [["a1","A1"],["a2","A2"],["b1","B1"],["b2","B2"]].forEach(([k,label])=>{
+  levelsInDeck().map(l => [l, LEVEL_LABELS[l]]).forEach(([k,label])=>{
     lvRow.appendChild(examChip(label, lv.has(k), ()=>{
       if(lv.has(k) && lv.size > 1) lv.delete(k); else lv.add(k);
       renderExamSetup();
@@ -13147,7 +13483,7 @@ function jumpToCard(cardId, from){
   lookupMode = true;
   showScreen('practice');
   document.getElementById("card").classList.add("flipped");
-  document.getElementById("gradeRow").classList.add("show");
+  document.getElementById("gradeRow").classList.remove("show");
   document.getElementById("flagRow").style.display = "flex";
   updatePracticeProgress();
   renderCard();
@@ -13805,16 +14141,16 @@ try{ $a("authVersion").textContent = "Klartext " + APP_VERSION + " · " + locati
 /* ---------- Enrichment data (contexts, hooks, stories, synonyms) ---------- */
 let ENRICH = {};
 async function loadEnrichment(){
-  try{
-    const res = await fetch("data/wortschatz_enrich_v1.dat");
-    if(!res.ok) return;
-    ENRICH = await decodeObfuscatedPack(await res.arrayBuffer()) || {};
-  }catch(e){ console.warn("[Klartext] enrichment data not loaded", e); ENRICH = {}; }
+  ENRICH = {};
+  const parts = await Promise.all(manifestPacks("enrich").map(async p=>{
+    try{ return await fetchPack(p) || {}; }
+    catch(e){ console.warn("[Klartext] enrichment pack not loaded", p.file, e); return {}; }
+  }));
+  parts.forEach(d => { if(d && typeof d === "object" && !Array.isArray(d)) Object.assign(ENRICH, d); });
 }
 function enrichFor(card){
   if(!card || card.id == null) return null;
-  const m = String(card.id).match(/^wortschatz_merged_v12_(.+)$/);
-  return ENRICH[m ? m[1] : card.id] || null;
+  return ENRICH[card.rawId != null ? card.rawId : card.id] || null;
 }
 function stripTags(s){ return String(s == null ? "" : s).replace(/<[^>]*>/g, ""); }
 function mdBold(s){ return escapeHtml(s).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>"); }
@@ -13892,9 +14228,9 @@ let memHideEn = false;
 
 
 /* ---------- Sound: master mute button, auto-pronounce ---------- */
-let autoSpeak = true;
+let autoSpeak = false; // off by default: hearing every new word was irritating. The speaker button still works.
 async function loadAutoSpeak(){
-  try{ const r = await window.storage.get("wortschatz-autospeak", false); if(r && r.value != null) autoSpeak = r.value === "1"; }catch(e){}
+  try{ const r = await window.storage.get("klartext-autospeak", false); if(r && r.value != null) autoSpeak = r.value === "1"; }catch(e){}
 }
 function stopSpeech(){
   try{ if(ttsMode === "android" && window.AndroidTTS && window.AndroidTTS.stop) window.AndroidTTS.stop(); }catch(e){}
@@ -13938,7 +14274,7 @@ document.getElementById("muteFab").addEventListener("click", () => {
 document.getElementById("infoFab").addEventListener("click", () => openHowTo());
 document.getElementById("autoSpeakToggle").addEventListener("change", async (ev) => {
   autoSpeak = ev.target.checked;
-  try{ await window.storage.set("wortschatz-autospeak", autoSpeak ? "1" : "0", false); }catch(e){}
+  try{ await window.storage.set("klartext-autospeak", autoSpeak ? "1" : "0", false); }catch(e){}
 });
 
 let autoSpeakPending = false, autoSpeakTimer = null;
@@ -14208,12 +14544,22 @@ async function saveGrammarProgress(){
 }
 async function loadGrammar(){
   if(GRAMMAR) return GRAMMAR;
-  try{
-    const res = await fetch("data/grammar_v1.dat");
-    if(!res.ok) throw new Error("HTTP " + res.status);
-    GRAMMAR = await decodeObfuscatedPack(await res.arrayBuffer());
-    if(!Array.isArray(GRAMMAR)) GRAMMAR = [];
-  }catch(e){ console.warn("[Klartext] grammar data not loaded", e); GRAMMAR = null; }
+  if(!MANIFEST || !MANIFEST.packs) await loadManifest();
+  const packs = manifestPacks("grammar");
+  let lessons = [], okCount = 0;
+  const parts = await Promise.all(packs.map(async p=>{
+    try{ const d = await fetchPack(p); okCount++; return Array.isArray(d) ? d : (d && Array.isArray(d.lessons) ? d.lessons : []); }
+    catch(e){ console.warn("[Klartext] grammar pack not loaded", p.file, e); return []; }
+  }));
+  parts.forEach(d => { lessons = lessons.concat(d); });
+  if(packs.length && okCount === 0){ GRAMMAR = null; return GRAMMAR; }
+  const seen = new Set();
+  lessons = lessons.filter(l => l && l.id && l.title && !seen.has(l.id) && seen.add(l.id));
+  lessons.forEach(l => { l.level = String(l.level || "a1").toUpperCase(); });
+  // Easiest level first, original order kept inside a level.
+  lessons = lessons.map((l, i) => [l, i]).sort((a, b)=> (levelRank(a[0].level.toLowerCase()) - levelRank(b[0].level.toLowerCase())) || (a[1] - b[1])).map(x => x[0]);
+  GRAMMAR = lessons;
+  registerLevels(MANIFEST.levels, deck.map(c => c.level).concat(lessons.map(l => l.level)));
   return GRAMMAR;
 }
 function gFmt(s){ return escapeHtml(s).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>"); }
@@ -14239,7 +14585,7 @@ function renderGrammarList(){
   const total = GRAMMAR.length;
   const done = GRAMMAR.filter(l => grammarProgress[l.id] && grammarProgress[l.id].done).length;
   const next = GRAMMAR.find(l => !(grammarProgress[l.id] && grammarProgress[l.id].done)) || null;
-  const levels = ["A1", "A2", "B1", "B2"];
+  const levels = Array.from(new Set(GRAMMAR.map(l => String(l.level || "").toUpperCase()).filter(Boolean))).sort((a, b)=> levelRank(a.toLowerCase()) - levelRank(b.toLowerCase()));
   const chips = ["all"].concat(levels);
   let html = `
     <div class="gr-hero">
@@ -14252,9 +14598,9 @@ function renderGrammarList(){
     <div class="gr-filter">${chips.map(c => `<button type="button" class="gr-chip${grammarFilter === c ? " on" : ""}" data-f="${c}">${c === "all" ? "All" : c}</button>`).join("")}</div>`;
   levels.forEach(lv => {
     if(grammarFilter !== "all" && grammarFilter !== lv) return;
-    const list = GRAMMAR.filter(l => l.level === lv);
+    const list = GRAMMAR.filter(l => String(l.level || "").toUpperCase() === lv);
     if(!list.length) return;
-    html += `<div class="gr-level">${lv} · ${{A1:"Beginner", A2:"Elementary", B1:"Intermediate", B2:"Upper intermediate"}[lv]}</div>`;
+    html += `<div class="gr-level">${lv}${LEVEL_NAMES[lv.toLowerCase()] ? " · " + LEVEL_NAMES[lv.toLowerCase()] : ""}</div>`;
     list.forEach(l => {
       const p = grammarProgress[l.id];
       const st = p && p.done ? `${"★".repeat(gStars(p.best))}${"☆".repeat(3 - gStars(p.best))}<br>${p.best}%` : `${(l.exercises || []).length} exercises`;
@@ -14296,7 +14642,7 @@ function renderLessonRead(){
     if(sec.tip) html += `<div class="gl-tip">💡 ${gFmt(sec.tip)}</div>`;
     html += `</div>`;
   });
-  html += `<div class="gl-start"><button class="gl-btn" id="glStart" type="button">Start exercises (${(l.exercises || []).length}) →</button></div>`;
+  html += `<div class="gl-start"><button class="gl-btn" id="glStart" type="button">Start exercises (${(GL.daily && GAME.daily && GAME.daily.exIdx) ? GAME.daily.exIdx.length : (l.exercises || []).length}) →</button></div>`;
   body.innerHTML = html;
   body.querySelectorAll(".gl-say").forEach(b => b.addEventListener("click", () => speakGerman(b.getAttribute("data-t"))));
   document.getElementById("glStart").addEventListener("click", () => startExercises(false));
@@ -14306,7 +14652,8 @@ function renderLessonRead(){
 /* ---------- Exercise player ---------- */
 function startExercises(onlyMissed){
   const all = GL.lesson.exercises || [];
-  const list = onlyMissed ? GL.missed.map(i => all[i]).filter(Boolean) : all.slice();
+  const dl = (GL.daily && GAME.daily && GAME.daily.exIdx) ? GAME.daily.exIdx.map(i => all[i]).filter(Boolean) : null;
+  const list = onlyMissed ? GL.missed.map(i => all[i]).filter(Boolean) : (dl || all.slice());
   GL.stage = "ex";
   GL.queue = list.map(e => ({e: e, idx: all.indexOf(e)}));
   GL.i = 0; GL.right = 0; GL.missed = []; GL.retry = !!onlyMissed;
@@ -14419,7 +14766,7 @@ function wireExercise(e){
 function finishExercise(ok, answerText, e){
   if(GL.answered) return;
   GL.answered = true;
-  if(ok){ GL.right++; sfx("correct"); } else { GL.missed.push(GL.queue[GL.i].idx); sfx("wrong"); }
+  if(ok){ GL.right++; try{ gameAward(2, "grammar"); }catch(e){} sfx("correct"); } else { GL.missed.push(GL.queue[GL.i].idx); sfx("wrong"); }
   const fb = document.getElementById("gxFb");
   const last = GL.i + 1 >= GL.queue.length;
   fb.innerHTML = `<div class="gx-fb ${ok ? "ok" : "bad"}"><b>${ok ? "✓ Correct!" : "✗ Not quite"}</b>${!ok && answerText ? `Correct answer: <b style="display:inline">${escapeHtml(answerText)}</b><br>` : ""}${escapeHtml(e.why || "")}</div><button class="gl-btn" id="gxNext" type="button" style="margin-top:10px">${last ? "See results" : "Continue →"}</button>`;
@@ -14428,6 +14775,7 @@ function finishExercise(ok, answerText, e){
   nx.focus();
 }
 function renderLessonResult(){
+  if(GL.daily) return gameDailyGrammarResult();
   const l = GL.lesson, all = (l.exercises || []).length;
   const body = document.getElementById("glBody");
   GL.stage = "done";
@@ -14451,6 +14799,7 @@ function renderLessonResult(){
     ${next ? `<button class="gl-btn${GL.missed.length ? " alt" : ""}" id="glNext" type="button">Next: ${escapeHtml(next.title)} →</button>` : ""}
     <button class="gl-btn alt" id="glReread" type="button">Read the lesson again</button>
     <button class="gl-btn alt" id="glList" type="button">All lessons</button></div>`;
+  if(firstRun){ try{ gameOnLessonDone(stars); }catch(e){} }
   if(stars >= 2){ try{ confetti(); }catch(e){} }
   sfx(stars >= 2 ? "complete" : "almost");
   const q = id => document.getElementById(id);
@@ -14460,12 +14809,315 @@ function renderLessonResult(){
   q("glList").addEventListener("click", glBackToList);
 }
 function glBackToList(){
+  if(GL && GL.daily){ GL = null; showScreen("home"); renderHome(); return; }
   GL = null;
   showScreen("grammar");
   renderGrammarList();
 }
 document.getElementById("grammarHomeBtn").addEventListener("click", () => { showScreen("home"); renderHome(); });
 document.getElementById("glBackBtn").addEventListener("click", glBackToList);
+
+/* ============ GAME LAYER: points, levels, badges, daily lesson, welcome back ============
+   Everything here sits on top of the existing study engine. Points (XP) are
+   awarded from the same grade() and grammar exercise hooks, the daily lesson
+   is built from the learner's own words and the grammar lessons already in the
+   app, and all of it is saved under one synced key ('klartext-game'). */
+let GAME = {xp:0, byDay:{}, badges:{}, goal:100, stats:{correct:0, speak:0, lessons:0, daily:0}, daily:null, comeback:false, welcomeDay:null, askedComeback:false};
+async function loadGame(){
+  try{
+    const r = await window.storage.get("klartext-game", false);
+    if(r && r.value){ const g = JSON.parse(r.value); if(g && typeof g === "object") GAME = Object.assign(GAME, g, {stats: Object.assign(GAME.stats, g.stats || {})}); }
+  }catch(e){ /* defaults stand */ }
+}
+let gameSaveTimer = null;
+function saveGame(){
+  clearTimeout(gameSaveTimer);
+  gameSaveTimer = setTimeout(async ()=>{ try{ await window.storage.set("klartext-game", JSON.stringify(GAME), false); }catch(e){} }, 400);
+}
+function gameLevelFor(xp){ return Math.max(1, Math.floor((1 + Math.sqrt(1 + xp / 12.5)) / 2)); }
+function gameLevelStart(L){ return 50 * L * (L - 1); }
+function gameLevelName(L){ return L >= 10 ? "Meister" : L >= 6 ? "Profi" : L >= 5 ? "Kenner" : L >= 4 ? "Sprecher" : L >= 3 ? "Entdecker" : L >= 2 ? "Lehrling" : "Neuling"; }
+function gameTodayXp(){ return GAME.byDay[todayStr()] || 0; }
+
+const BADGES = [
+  {id:"first",   icon:"🌱", name:"First word",       desc:"Answer your first question right",   ok:()=>GAME.stats.correct >= 1},
+  {id:"c100",    icon:"💯", name:"100 right",        desc:"100 correct answers",                ok:()=>GAME.stats.correct >= 100},
+  {id:"speak",   icon:"🎤", name:"Out loud",         desc:"Say a German word correctly",        ok:()=>GAME.stats.speak >= 1},
+  {id:"gram",    icon:"📘", name:"Grammar start",    desc:"Finish a grammar lesson",            ok:()=>GAME.stats.lessons >= 1},
+  {id:"daily1",  icon:"☀️", name:"Daily habit",      desc:"Complete a daily lesson",            ok:()=>GAME.stats.daily >= 1},
+  {id:"daily7",  icon:"🗓️", name:"Daily x7",         desc:"Complete 7 daily lessons",           ok:()=>GAME.stats.daily >= 7},
+  {id:"s3",      icon:"🔥", name:"3 day streak",     desc:"Study 3 days in a row",              ok:()=>dailyStreak >= 3},
+  {id:"s7",      icon:"🔥", name:"7 day streak",     desc:"Study 7 days in a row",              ok:()=>dailyStreak >= 7},
+  {id:"s30",     icon:"🏅", name:"30 day streak",    desc:"Study 30 days in a row",             ok:()=>dailyStreak >= 30},
+  {id:"l5",      icon:"⭐", name:"Level 5",          desc:"Reach level 5",                      ok:()=>gameLevelFor(GAME.xp) >= 5}
+];
+// A banner that never blocks the screen, so a badge or level never interrupts an answer.
+let gameBannerTimer = null;
+function gameBanner(title, sub){
+  try{
+    let el = document.getElementById("gmBanner");
+    if(!el){ el = document.createElement("div"); el.id = "gmBanner"; document.body.appendChild(el); }
+    el.innerHTML = "<b></b><span></span>"; el.firstChild.textContent = title; el.lastChild.textContent = sub || "";
+    el.classList.add("show");
+    clearTimeout(gameBannerTimer);
+    gameBannerTimer = setTimeout(()=>el.classList.remove("show"), 3800);
+  }catch(e){}
+}
+function xpPop(text){
+  try{
+    let el = document.getElementById("xpPop");
+    if(!el){ el = document.createElement("div"); el.id = "xpPop"; document.body.appendChild(el); }
+    el.textContent = text; el.classList.remove("go"); void el.offsetWidth; el.classList.add("go");
+  }catch(e){}
+}
+function gameCheckBadges(){
+  const fresh = [];
+  BADGES.forEach(b=>{ if(!GAME.badges[b.id] && b.ok()){ GAME.badges[b.id] = todayStr(); fresh.push(b); } });
+  if(fresh.length){
+    saveGame();
+    const b = fresh[0];
+    setTimeout(()=>{ try{ sfx("complete"); }catch(e){} gameBanner(b.icon + " New badge: " + b.name, b.desc); }, 900);
+  }
+}
+function gameAward(n, why){
+  if(!n || n < 0) return;
+  const before = gameLevelFor(GAME.xp), goalBefore = gameTodayXp() >= GAME.goal;
+  GAME.xp += n;
+  GAME.byDay[todayStr()] = gameTodayXp() + n;
+  // keep only the last 60 days
+  const keys = Object.keys(GAME.byDay).sort();
+  while(keys.length > 60) delete GAME.byDay[keys.shift()];
+  xpPop("+" + n + " XP");
+  const after = gameLevelFor(GAME.xp);
+  if(after > before){
+    setTimeout(()=>{ try{ sfx("complete"); confetti(); }catch(e){} gameBanner("⭐ Level " + after + ": " + gameLevelName(after), "You moved up. Keep going!"); }, 700);
+  } else if(!goalBefore && gameTodayXp() >= GAME.goal){
+    setTimeout(()=>{ try{ sfx("complete"); confetti(); }catch(e){} fabToast("Daily goal reached: " + GAME.goal + " XP"); }, 600);
+  }
+  saveGame();
+  gameCheckBadges();
+}
+// XP for one right answer in practice: harder ways of answering earn more.
+function gameOnVocabCorrect(kind){
+  GAME.stats.correct++;
+  if(kind === "speak") GAME.stats.speak++;
+  gameAward(kind === "speak" ? 6 : kind === "typing" ? 4 : kind === "choice" ? 2 : 1, "vocab");
+}
+function gameOnLessonDone(stars){
+  GAME.stats.lessons++;
+  gameAward(3 + stars * 3, "lesson");
+}
+
+/* ---- Daily lesson: today's words (due ones first, then the next new topic) + 5 grammar exercises ---- */
+// Content may change between visits. Anything the learner had selected or saved
+// that no longer exists is quietly dropped here so no screen ever meets it.
+function sanitizeAfterContentLoad(){
+  const have = new Set(deck.map(c => c.level));
+  selectedLevels = new Set(Array.from(selectedLevels).map(normLevel).filter(l => have.has(l)));
+  if(examSetup && examSetup.levels){
+    examSetup.levels = new Set(Array.from(examSetup.levels).filter(l => have.has(l)));
+    if(!examSetup.levels.size) examSetup.levels = null;
+  }
+  if(browseLevel !== "alle" && !have.has(browseLevel)) browseLevel = levelsInDeck()[0] || "alle";
+  missedQueue = missedQueue.filter(id => deckById[id] || DEDUP_ALIAS[id]);
+  CONTENT_REPORT.orphans = Object.keys(leitner).filter(id => !deckById[id] && !DEDUP_ALIAS[id]).length;
+}
+function gameInLevels(c){ return selectedLevels.size === 0 || selectedLevels.has(c.level); }
+function gameBuildDailyVocab(){
+  const pickDue = deck.filter(c => gameInLevels(c) && getEntry(c.id).introduced && getStatus(c.id) !== "retired" && isDue(c));
+  const due = shuffleArray(pickDue.slice()).slice(0, 3);
+  let theme = null, fresh = [];
+  try{
+    const secs = computeSections();
+    for(const s of secs){
+      const c = s.cards.filter(x => gameInLevels(x) && !getEntry(x.id).introduced && !getEntry(x.id).seenInLearn && getStatus(x.id) !== "retired" && !leitner[x.id]);
+      if(c.length >= 3){ theme = s.theme; fresh = c.slice(0, 6 - due.length); break; }
+    }
+  }catch(e){}
+  let ids = due.concat(fresh).map(c => c.id);
+  if(ids.length < 5){
+    const used = new Set(ids);
+    const more = shuffleArray(deck.filter(c => gameInLevels(c) && !used.has(c.id) && getStatus(c.id) !== "retired" && (isDue(c) || (leitner[c.id] && leitner[c.id].status === "learning")))).slice(0, 6 - ids.length);
+    ids = ids.concat(more.map(c => c.id));
+  }
+  return {ids: ids.slice(0, 6), theme: theme};
+}
+function gameBuildDailyGrammar(){
+  if(!Array.isArray(GRAMMAR) || !GRAMMAR.length) return null;
+  const lv = l => selectedLevels.size === 0 || selectedLevels.has(String(l.level || "").toLowerCase());
+  let pool = GRAMMAR.filter(l => !(grammarProgress[l.id] && grammarProgress[l.id].done) && lv(l));
+  if(!pool.length) pool = GRAMMAR.filter(l => !(grammarProgress[l.id] && grammarProgress[l.id].done));
+  let lesson = pool[0];
+  if(!lesson) lesson = GRAMMAR[dayDiff("2026-01-01", todayStr()) % GRAMMAR.length];
+  const n = (lesson.exercises || []).length;
+  if(!n) return null;
+  const idx = shuffleArray(Array.from({length:n}, (_, i) => i)).slice(0, Math.min(5, n));
+  return {lessonId: lesson.id, exIdx: idx};
+}
+async function gameEnsureDaily(){
+  const today = todayStr();
+  if(!deck || !deck.length) return null;
+  if(!GAME.daily || GAME.daily.date !== today){
+    const v = gameBuildDailyVocab();
+    GAME.daily = {date: today, ids: v.ids, theme: v.theme, vocab: false, grammar: false, bonus: false, lessonId: null, exIdx: null};
+    saveGame();
+  }
+  {
+    // Content can change between visits (words removed, lessons renamed).
+    const d = GAME.daily;
+    const before = d.ids.length;
+    d.ids = d.ids.filter(id => deckById[id]);
+    if(!d.vocab && (d.ids.length < before) && d.ids.length < Math.min(before, 4)){
+      const v = gameBuildDailyVocab(); d.ids = v.ids; d.theme = v.theme;
+    }
+    if(d.lessonId && !d.grammar){
+      await loadGrammar();
+      if(Array.isArray(GRAMMAR) && !GRAMMAR.some(l => l.id === d.lessonId)){ d.lessonId = null; d.exIdx = null; }
+    }
+    saveGame();
+  }
+  if(!GAME.daily.lessonId){
+    await loadGrammar();
+    const g = gameBuildDailyGrammar();
+    if(g){ GAME.daily.lessonId = g.lessonId; GAME.daily.exIdx = g.exIdx; saveGame(); }
+  }
+  return GAME.daily;
+}
+function gameDailyCheckBonus(){
+  const d = GAME.daily; if(!d || d.bonus) return;
+  const grammarNeeded = !!d.lessonId;
+  if(d.vocab && (d.grammar || !grammarNeeded)){
+    d.bonus = true; GAME.stats.daily++;
+    setTimeout(()=>{ try{ sfx("complete"); confetti(); }catch(e){} }, 400);
+    gameAward(15, "daily");
+    setTimeout(gameAskComebackOnce, 2500);
+  }
+}
+function gameStartDailyVocab(){
+  const d = GAME.daily; if(!d || !d.ids.length) return;
+  if(d.vocab){ fabToast("Words done. Try the grammar challenge."); return; }
+  resetExerciseUI(); lookupMode = false; reviewFilter = null; practiceMixMode = false;
+  selectedSectionIndex = null; selectedSectionLabel = null;
+  replayIds = d.ids.slice(); sessionKind = "daily";
+  restoreModeOverride();
+  startSession();
+  replayIds = null;
+}
+async function gameDailyVocabDone(){
+  const d = GAME.daily; if(!d || d.vocab || d.date !== todayStr()) return;
+  d.vocab = true; saveGame();
+  gameAward(10, "daily-words");
+  gameDailyCheckBonus();
+  const g = !!d.lessonId && !d.grammar;
+  if(g) setTimeout(()=>showDialog({title:"Words done", body:"Nice work. Ready for today's grammar challenge? It takes about two minutes.", buttons:[{label:"Grammar challenge", primary:true, onClick:gameStartDailyGrammar},{label:"Later"}]}), 1600);
+}
+async function gameStartDailyGrammar(){
+  const d = await gameEnsureDaily();
+  if(!d || !d.lessonId){ fabToast("No grammar challenge today"); return; }
+  const lesson = (GRAMMAR || []).find(l => l.id === d.lessonId);
+  if(!lesson){ fabToast("Grammar is still loading"); return; }
+  GL = {lesson: lesson, stage: "read", daily: true};
+  showScreen("glesson");
+  renderLessonRead();
+}
+function gameDailyGrammarResult(){
+  const body = document.getElementById("glBody");
+  GL.stage = "done";
+  const total = GL.queue.length, right = GL.right;
+  const d = GAME.daily;
+  if(d && !d.grammar && d.date === todayStr()){ d.grammar = true; saveGame(); gameAward(10, "daily-grammar"); gameDailyCheckBonus(); }
+  const missed = GL.missed.length;
+  body.innerHTML = `<div class="gx-result"><div class="stars">${"★".repeat(right >= total ? 3 : right >= total - 1 ? 2 : right >= 1 ? 1 : 0)}${"☆".repeat(3 - (right >= total ? 3 : right >= total - 1 ? 2 : right >= 1 ? 1 : 0))}</div><h2>${right >= total - 1 ? "Well done!" : "Good effort"}</h2><p>${right} of ${total} correct. Grammar challenge done for today.</p>
+    <button class="gl-btn" id="glDailyHome" type="button">Back to home</button>
+    <button class="gl-btn alt" id="glDailyLesson" type="button">Open the full lesson: ${escapeHtml(GL.lesson.title)}</button></div>`;
+  try{ if(missed === 0) confetti(); }catch(e){}
+  document.getElementById("glDailyHome").addEventListener("click", glBackToList);
+  document.getElementById("glDailyLesson").addEventListener("click", ()=>{ const id = GL.lesson.id; GL = null; openLesson(id); });
+}
+
+/* ---- Home card ---- */
+function gameRenderHome(){
+  const host = document.getElementById("homeGame");
+  if(!host) return;
+  const L = gameLevelFor(GAME.xp), a = gameLevelStart(L), b = gameLevelStart(L + 1);
+  const lvlPct = Math.round(100 * (GAME.xp - a) / (b - a));
+  const today = gameTodayXp(), goalPct = Math.min(100, Math.round(100 * today / GAME.goal));
+  const d = GAME.daily && GAME.daily.date === todayStr() ? GAME.daily : null;
+  const wordsN = d ? d.ids.length : 0;
+  let dailyHtml;
+  if(!d){
+    dailyHtml = `<div class="gm-daily-title">Today's lesson</div><div class="gm-sub">Getting your lesson ready…</div>`;
+  } else if(d.bonus){
+    dailyHtml = `<div class="gm-daily-title">Today's lesson <span class="gm-done">Done ✓</span></div><div class="gm-sub">Great job. A new lesson arrives tomorrow. Want more? Open Practice.</div>`;
+  } else {
+    const nextIsGrammar = d.vocab && d.lessonId && !d.grammar;
+    dailyHtml = `<div class="gm-daily-title">Today's lesson${d.theme ? ` <span class="gm-theme">${escapeHtml(d.theme)}</span>` : ""}</div>
+      <div class="gm-steps"><span class="gm-step${d.vocab ? " done" : ""}">${d.vocab ? "✓" : "📚"} ${wordsN} words</span>${d.lessonId ? `<span class="gm-step${d.grammar ? " done" : ""}">${d.grammar ? "✓" : "✏️"} Grammar</span>` : ""}<span class="gm-step bonus">+15 XP bonus</span></div>
+      <button id="gmDailyBtn" class="btn-3d btn-primary" type="button" style="margin:10px 0 0;">${nextIsGrammar ? "Start grammar challenge" : "Start today's lesson"}</button>`;
+  }
+  host.innerHTML = `<div class="gm-top"><div class="gm-level"><b>Level ${L}</b> <span>${gameLevelName(L)}</span></div><div class="gm-xp">${GAME.xp} XP</div></div>
+    <div class="progress-container gm-bar" title="Progress to level ${L + 1}"><div class="progress-fill" style="width:${lvlPct}%"></div></div>
+    <div class="gm-goalrow"><span>Today: <b>${today}</b> / ${GAME.goal} XP</span><span class="gm-goalpct">${goalPct >= 100 ? "Goal reached 🎉" : goalPct + "%"}</span></div>
+    <div class="progress-container gm-bar goal"><div class="progress-fill" style="width:${goalPct}%"></div></div>
+    <div class="gm-daily">${dailyHtml}</div>`;
+  const btn = document.getElementById("gmDailyBtn");
+  if(btn) btn.addEventListener("click", ()=>{ const dd = GAME.daily; if(dd && dd.vocab && dd.lessonId && !dd.grammar) gameStartDailyGrammar(); else gameStartDailyVocab(); });
+  gameApplyComeback(false);
+}
+
+/* ---- Profile card ---- */
+function gameRenderProfile(){
+  const host = document.getElementById("gameProfileCard");
+  if(!host) return;
+  const L = gameLevelFor(GAME.xp);
+  const bad = BADGES.map(b => { const got = !!GAME.badges[b.id]; return `<div class="gm-badge${got ? " got" : ""}" title="${escapeHtml(b.name + ": " + b.desc)}"><span>${b.icon}</span><small>${escapeHtml(b.name)}</small></div>`; }).join("");
+  const goals = [50, 100, 150].map(g => `<button type="button" class="gm-goalbtn${GAME.goal === g ? " on" : ""}" data-g="${g}">${g} XP</button>`).join("");
+  const native = !!window.AndroidReminder && !!window.AndroidReminder.setComeback;
+  host.innerHTML = `<h4 style="font-size:0.8rem;font-weight:800;color:var(--text-secondary);text-transform:uppercase;margin:0 0 8px;">Your progress</h4>
+    <div class="gm-top"><div class="gm-level"><b>Level ${L}</b> <span>${gameLevelName(L)}</span></div><div class="gm-xp">${GAME.xp} XP</div></div>
+    <div class="gm-badges">${bad}</div>
+    <div class="gm-goalpick"><span>Daily goal</span>${goals}</div>
+    ${native ? `<div class="gm-comeback"><label><input type="checkbox" id="gmComeback" ${GAME.comeback ? "checked" : ""}> Nudge me if I stay away for a few days</label></div>` : ""}`;
+  host.querySelectorAll(".gm-goalbtn").forEach(b => b.addEventListener("click", ()=>{ GAME.goal = parseInt(b.getAttribute("data-g"), 10) || 100; saveGame(); gameRenderProfile(); gameRenderHome(); }));
+  const cb = document.getElementById("gmComeback");
+  if(cb) cb.addEventListener("change", ()=>{ GAME.comeback = cb.checked; GAME.askedComeback = true; saveGame(); gameApplyComeback(true); });
+}
+
+/* ---- Away nudges (Android) and welcome back (everywhere) ---- */
+function gameApplyComeback(ask){
+  try{ if(window.AndroidReminder && window.AndroidReminder.setComeback) window.AndroidReminder.setComeback(!!GAME.comeback, dailyStreak || 0, !!ask); }catch(e){}
+}
+function gameAskComebackOnce(){
+  if(GAME.askedComeback || !(window.AndroidReminder && window.AndroidReminder.setComeback)) return;
+  GAME.askedComeback = true; saveGame();
+  showDialog({title:"A gentle nudge?", body:"If you stay away for a few days, Klartext can send a short reminder. You can switch this off in Profile.", buttons:[
+    {label:"Yes, nudge me", primary:true, onClick:()=>{ GAME.comeback = true; saveGame(); gameApplyComeback(true); }},
+    {label:"No thanks"}]});
+}
+function gameWelcomeBack(){
+  if(!lastActiveDate || GAME.welcomeDay === todayStr()) return;
+  const away = dayDiff(lastActiveDate, todayStr());
+  if(away < 3) return;
+  GAME.welcomeDay = todayStr(); saveGame();
+  showDialog({title:"Welcome back", body:"It has been " + away + " days. Words fade without review, so we start with easy ones. Today's lesson takes about five minutes.", buttons:[
+    {label:"Start today's lesson", primary:true, onClick:gameStartDailyVocab},
+    {label:"Later"}]});
+}
+async function gameInit(){
+  await loadGame();
+  await gameEnsureDaily();
+  gameRenderHome();
+  gameCheckBadges();
+  setTimeout(gameWelcomeBack, 1200);
+}
+const _renderHomeBase = renderHome;
+renderHome = function(){ _renderHomeBase.apply(this, arguments); try{ gameRenderHome(); }catch(e){} };
+const _showScreenBase = showScreen;
+showScreen = function(name, opts){
+  const r = _showScreenBase.apply(this, arguments);
+  try{ if(name === "profil") gameRenderProfile(); }catch(e){}
+  return r;
+};
 
 /* ============ BOOTSTRAP / INIT ============ */
 let dataLoaded = false;
@@ -14486,7 +15138,8 @@ async function startApp(){
   await loadExamHistory();
   await loadSavedWords();
   await loadReminderPrefs();
-  if(!dataLoaded){ await loadDataPacks(); dataLoaded = true; } // fetches JSON packs once; a second startApp() must not append the deck again
+  if(!dataLoaded){ await (dataPromise || (dataPromise = loadDataPacks())); dataLoaded = true; } // fetches JSON packs once; a second startApp() must not append the deck again
+  sanitizeAfterContentLoad();
   await migrateDedupProgress();
   await loadEnrichment();
   applySoundUI();
@@ -14496,6 +15149,7 @@ async function startApp(){
   renderHome();
   renderAccountSection();
   renderVersionFooter();
+  try{ await gameInit(); }catch(e){ console.warn('[Klartext] game init', e); }
   applyReminderToNative(); // re-sync the native alarm/work request with the loaded prefs on every launch
   if(!onboarded){
     renderOnboardingLevels();

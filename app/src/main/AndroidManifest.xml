@@ -13,6 +13,14 @@
          screen's reminder toggle — never on first launch unprompted;
          see MainActivity.ReminderBridge#requestPermission(). -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Speaking exercise: listen to the learner say the German word. Asked at
+         runtime, only when the learner taps the microphone button. -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <queries>
+        <intent>
+            <action android:name="android.speech.RecognitionService" />
+        </intent>
+    </queries>
 
     <!-- allowBackup is off so a plain `adb backup` can't pull this app's
          data (progress + cached vocab) off the device without root. -->

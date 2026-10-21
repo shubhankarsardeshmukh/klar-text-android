@@ -3,11 +3,15 @@ package com.klartext.app;
 import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.CancellationSignal;
 import android.os.Build;
 import android.os.Bundle;
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.view.WindowManager;
@@ -34,13 +38,16 @@ import androidx.credentials.exceptions.GetCredentialException;
 import androidx.credentials.exceptions.NoCredentialException;
 import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption;
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import androidx.webkit.WebViewAssetLoader;
 import androidx.work.Data;
 import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.OneTimeWorkRequest;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
@@ -67,6 +74,15 @@ public class MainActivity extends AppCompatActivity {
 
     // Runtime-permission request code for POST_NOTIFICATIONS (Feature 2).
     private static final int REQUEST_CODE_NOTIFICATIONS = 1001;
+    // Runtime-permission request code for RECORD_AUDIO (speaking exercise).
+    private static final int REQUEST_CODE_MIC = 1002;
+    // "Nudge me if I stay away": settings kept natively so the background jobs know them.
+    static final String PREFS = "klartext_native_prefs";
+    static final String PREF_COMEBACK = "comeback_on";
+    static final String PREF_STREAK = "streak";
+    private static final int[] COMEBACK_DAYS = {2, 4, 7, 14};
+    private SpeechRecognizer speech;
+    private String pendingSpeechLang = null;
     // Unique WorkManager name for the daily reminder — reused so
     // enqueueUniquePeriodicWork() replaces rather than duplicates it.
     private static final String REMINDER_WORK_NAME = "klartext-daily-reminder";
@@ -167,6 +183,17 @@ public class MainActivity extends AppCompatActivity {
                 WorkManager.getInstance(MainActivity.this)
                         .enqueueUniquePeriodicWork(REMINDER_WORK_NAME, ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE, request);
             });
+        }
+
+        // Turns the "stay away" nudges on or off. The page calls this on every
+        // launch with the current streak; `ask` is true only when the learner
+        // has just switched it on, which is the only time permission is requested.
+        @JavascriptInterface
+        public void setComeback(boolean on, int streak, boolean ask) {
+            SharedPreferences.Editor ed = getSharedPreferences(PREFS, MODE_PRIVATE).edit();
+            ed.putBoolean(PREF_COMEBACK, on).putInt(PREF_STREAK, Math.max(0, streak)).apply();
+            if (on && ask) requestPermission();
+            if (!on) cancelComeback();
         }
 
         @JavascriptInterface
@@ -316,6 +343,7 @@ public class MainActivity extends AppCompatActivity {
         webView.addJavascriptInterface(new TTSBridge(), "AndroidTTS");
         webView.addJavascriptInterface(new ReminderBridge(), "AndroidReminder");
         webView.addJavascriptInterface(new AuthBridge(), "AndroidAuth");
+        webView.addJavascriptInterface(new SpeechBridge(), "AndroidSpeech");
 
         tts = new TextToSpeech(this, status -> {
             if (status == TextToSpeech.SUCCESS && tts != null) {
@@ -434,6 +462,101 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Speaking exercise: lets the web page listen to the learner through
+     * Android's own speech recognizer (WebView has no webkitSpeechRecognition).
+     * The microphone permission is asked only when the learner taps the mic.
+     * Results come back through window.__onNativeSpeech(jsonArrayOfGuesses, error).
+     */
+    private class SpeechBridge {
+        @JavascriptInterface
+        public boolean isAvailable() {
+            return SpeechRecognizer.isRecognitionAvailable(MainActivity.this);
+        }
+
+        @JavascriptInterface
+        public void start(final String lang) {
+            runOnUiThread(() -> beginListening(lang));
+        }
+
+        @JavascriptInterface
+        public void stop() {
+            runOnUiThread(() -> {
+                if (speech != null) { try { speech.stopListening(); } catch (Exception ignored) { } }
+            });
+        }
+    }
+
+    private void beginListening(String lang) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED) {
+            pendingSpeechLang = lang;
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.RECORD_AUDIO}, REQUEST_CODE_MIC);
+            return;
+        }
+        if (!SpeechRecognizer.isRecognitionAvailable(this)) { notifySpeech(null, "unavailable"); return; }
+        try {
+            if (speech != null) { speech.destroy(); speech = null; }
+            speech = SpeechRecognizer.createSpeechRecognizer(this);
+            speech.setRecognitionListener(new RecognitionListener() {
+                @Override public void onReadyForSpeech(Bundle params) { notifySpeech(null, "ready"); }
+                @Override public void onBeginningOfSpeech() { }
+                @Override public void onRmsChanged(float rmsdB) { }
+                @Override public void onBufferReceived(byte[] buffer) { }
+                @Override public void onEndOfSpeech() { }
+                @Override public void onPartialResults(Bundle partialResults) { }
+                @Override public void onEvent(int eventType, Bundle params) { }
+                @Override public void onError(int error) {
+                    String code;
+                    switch (error) {
+                        case SpeechRecognizer.ERROR_NO_MATCH: code = "no-match"; break;
+                        case SpeechRecognizer.ERROR_SPEECH_TIMEOUT: code = "no-speech"; break;
+                        case SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS: code = "permission"; break;
+                        case SpeechRecognizer.ERROR_NETWORK:
+                        case SpeechRecognizer.ERROR_NETWORK_TIMEOUT: code = "network"; break;
+                        default: code = "error:" + error;
+                    }
+                    notifySpeech(null, code);
+                }
+                @Override public void onResults(Bundle results) {
+                    ArrayList<String> r = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                    JSONArray arr = new JSONArray();
+                    if (r != null) { for (String x : r) arr.put(x); }
+                    notifySpeech(arr.toString(), arr.length() == 0 ? "no-match" : null);
+                }
+            });
+            Intent i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+            i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+            i.putExtra(RecognizerIntent.EXTRA_LANGUAGE, lang == null ? "de-DE" : lang);
+            i.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 5);
+            i.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, false);
+            speech.startListening(i);
+        } catch (Exception e) {
+            notifySpeech(null, "error:" + e.getClass().getSimpleName());
+        }
+    }
+
+    /** Hands recognized guesses (JSON array text) or a status/error code to the page. */
+    private void notifySpeech(String jsonArray, String code) {
+        if (webView == null) return;
+        final String js = "window.__onNativeSpeech && window.__onNativeSpeech("
+                + (jsonArray == null ? "null" : jsonArray) + ","
+                + (code == null ? "null" : JSONObject.quote(code)) + ");";
+        runOnUiThread(() -> webView.evaluateJavascript(js, null));
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_MIC) {
+            boolean ok = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+            String lang = pendingSpeechLang;
+            pendingSpeechLang = null;
+            if (ok) beginListening(lang); else notifySpeech(null, "permission");
+        }
+    }
+
     /** Hands the Google ID token (or an error code) back to the web page. */
     private void notifyGoogle(String idToken, String error) {
         if (webView == null) return;
@@ -451,8 +574,42 @@ public class MainActivity extends AppCompatActivity {
                 "window.__onAndroidTtsEvent && window.__onAndroidTtsEvent('" + state + "');", null));
     }
 
+    private void cancelComeback() {
+        for (int d : COMEBACK_DAYS) {
+            WorkManager.getInstance(this).cancelUniqueWork("klartext-comeback-" + d + "d");
+        }
+    }
+
+    private void scheduleComeback() {
+        if (!getSharedPreferences(PREFS, MODE_PRIVATE).getBoolean(PREF_COMEBACK, false)) return;
+        ReminderWorker.ensureChannel(this);
+        for (int d : COMEBACK_DAYS) {
+            OneTimeWorkRequest req = new OneTimeWorkRequest.Builder(ComebackWorker.class)
+                    .setInitialDelay(d, TimeUnit.DAYS)
+                    .setInputData(new Data.Builder().putInt(ComebackWorker.KEY_DAYS, d).build())
+                    .build();
+            WorkManager.getInstance(this).enqueueUniqueWork(
+                    "klartext-comeback-" + d + "d", androidx.work.ExistingWorkPolicy.REPLACE, req);
+        }
+    }
+
+    // Back on screen: the learner is here, so no "come back" nudge is due.
+    @Override
+    protected void onStart() {
+        super.onStart();
+        cancelComeback();
+    }
+
+    // Off screen: start the countdown to the nudges. onStart() cancels it.
+    @Override
+    protected void onStop() {
+        super.onStop();
+        scheduleComeback();
+    }
+
     @Override
     protected void onDestroy() {
+        if (speech != null) { speech.destroy(); speech = null; }
         if (tts != null) {
             tts.stop();
             tts.shutdown();

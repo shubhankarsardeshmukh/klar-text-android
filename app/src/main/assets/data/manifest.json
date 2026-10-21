@@ -1,0 +1,138 @@
+{
+ "schema": 1,
+ "contentVersion": "2026.10.21",
+ "levels": [
+  {
+   "id": "a1",
+   "label": "A1",
+   "name": "Beginner",
+   "order": 1
+  },
+  {
+   "id": "a2",
+   "label": "A2",
+   "name": "Elementary",
+   "order": 2
+  },
+  {
+   "id": "b1",
+   "label": "B1",
+   "name": "Intermediate",
+   "order": 3
+  },
+  {
+   "id": "b2",
+   "label": "B2",
+   "name": "Upper intermediate",
+   "order": 4
+  },
+  {
+   "id": "c1",
+   "label": "C1",
+   "name": "Advanced",
+   "order": 5
+  },
+  {
+   "id": "c2",
+   "label": "C2",
+   "name": "Mastery",
+   "order": 6
+  }
+ ],
+ "themes": {},
+ "aliases": {},
+ "packs": [
+  {
+   "kind": "vocab",
+   "file": "vocab_a1.dat",
+   "v": "3c296602",
+   "idPrefix": "wortschatz_merged_v12",
+   "level": "a1",
+   "label": "A1 vocabulary",
+   "words": 839
+  },
+  {
+   "kind": "vocab",
+   "file": "vocab_a2.dat",
+   "v": "7b17f8dc",
+   "idPrefix": "wortschatz_merged_v12",
+   "level": "a2",
+   "label": "A2 vocabulary",
+   "words": 553
+  },
+  {
+   "kind": "vocab",
+   "file": "vocab_b1.dat",
+   "v": "7aa9c79b",
+   "idPrefix": "wortschatz_merged_v12",
+   "level": "b1",
+   "label": "B1 vocabulary",
+   "words": 1643
+  },
+  {
+   "kind": "vocab",
+   "file": "vocab_b2.dat",
+   "v": "bf8f5205",
+   "idPrefix": "wortschatz_merged_v12",
+   "level": "b2",
+   "label": "B2 vocabulary",
+   "words": 1436
+  },
+  {
+   "kind": "enrich",
+   "file": "enrich_a1.dat",
+   "v": "96ca4baf",
+   "label": "enrich_a1",
+   "entries": 958
+  },
+  {
+   "kind": "enrich",
+   "file": "enrich_a2.dat",
+   "v": "0e007e62",
+   "label": "enrich_a2",
+   "entries": 552
+  },
+  {
+   "kind": "enrich",
+   "file": "enrich_b1.dat",
+   "v": "0d14373d",
+   "label": "enrich_b1",
+   "entries": 1638
+  },
+  {
+   "kind": "enrich",
+   "file": "enrich_b2.dat",
+   "v": "db4cbfab",
+   "label": "enrich_b2",
+   "entries": 754
+  },
+  {
+   "kind": "grammar",
+   "file": "grammar_a1.dat",
+   "v": "6cd2dc7b",
+   "label": "grammar_a1",
+   "lessons": 14
+  },
+  {
+   "kind": "grammar",
+   "file": "grammar_a2.dat",
+   "v": "0106d354",
+   "label": "grammar_a2",
+   "lessons": 13
+  },
+  {
+   "kind": "grammar",
+   "file": "grammar_b1.dat",
+   "v": "0b78fdc7",
+   "label": "grammar_b1",
+   "lessons": 12
+  },
+  {
+   "kind": "grammar",
+   "file": "grammar_b2.dat",
+   "v": "f357ed3c",
+   "label": "grammar_b2",
+   "lessons": 8
+  }
+ ]
+}
